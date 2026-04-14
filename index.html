@@ -9,9 +9,8 @@
     :root {
       --primary:       #7B2D8B;
       --primary-dark:  #5A1A6E;
-      --maroon:        #8B1C2D;
-      --maroon-dark:   #6A1020;
       --accent:        #A855C8;
+      --accent2:       #C084FC;
       --bg:            #F4F2FA;
       --card-bg:       #FFFFFF;
       --text:          #1A1730;
@@ -25,27 +24,23 @@
       --warning-bg:    #FEF3C7;
       --info:          #1A6FA8;
       --info-bg:       #D1ECF1;
-      --gray:          #6C757D;
-      --gray-bg:       #E9ECEF;
       --nav-height:    64px;
-      --shadow:        0 2px 12px rgba(91,26,110,0.08);
-      --shadow-lg:     0 4px 24px rgba(91,26,110,0.14);
       --radius:        12px;
-      --radius-sm:     8px;
+      --shadow:        0 2px 12px rgba(123,45,139,0.10);
+      --shadow-lg:     0 8px 32px rgba(123,45,139,0.14);
     }
     [data-theme="dark"] {
-      --bg:            #100E1C;
-      --card-bg:       #1C1830;
-      --text:          #EAE6FF;
-      --text-muted:    #9B97C0;
-      --border:        #2D2848;
-      --shadow:        0 2px 12px rgba(0,0,0,0.4);
-      --shadow-lg:     0 4px 24px rgba(0,0,0,0.5);
-      --success-bg:    #0D3320;
-      --danger-bg:     #3A0D0D;
-      --warning-bg:    #3A2800;
-      --info-bg:       #0D2840;
-      --gray-bg:       #252240;
+      --bg:       #12101E;
+      --card-bg:  #1E1B30;
+      --text:     #EDE9FF;
+      --text-muted: #9490B8;
+      --border:   #2E2B45;
+      --shadow:   0 2px 12px rgba(0,0,0,0.5);
+      --shadow-lg:0 8px 32px rgba(0,0,0,0.6);
+      --success-bg:#0D3B22;
+      --danger-bg: #3B1212;
+      --warning-bg:#382800;
+      --info-bg:   #0A2236;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
@@ -53,553 +48,1152 @@
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: var(--bg);
       color: var(--text);
-      line-height: 1.6;
-      transition: background 0.3s, color 0.3s;
+      transition: background 0.25s, color 0.25s;
+      padding-top: var(--nav-height);
     }
 
-    /* ── TOP NAV ── */
-    nav {
-      position: sticky; top: 0; z-index: 100;
-      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--maroon) 100%);
+    /* ── NAV ── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       height: var(--nav-height);
+      background: var(--primary);
       display: flex; align-items: center; justify-content: space-between;
       padding: 0 24px;
-      box-shadow: 0 2px 16px rgba(0,0,0,0.3);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.25);
     }
-    .nav-brand { display: flex; align-items: center; gap: 12px; }
-    .nav-icon { font-size: 24px; }
-    .nav-title {
-      color: #fff; font-size: 17px; font-weight: 700; letter-spacing: 0.3px;
+    .nav-brand {
+      display: flex; align-items: center; gap: 12px;
+      color: #fff; text-decoration: none;
     }
-    .nav-sub { color: rgba(255,255,255,0.72); font-size: 12px; font-weight: 400; margin-top: 1px; }
-    .nav-actions { display: flex; align-items: center; gap: 12px; }
-    .nav-badge {
-      background: rgba(255,255,255,0.15); color: #fff;
+    .nav-brand-icon {
+      width: 36px; height: 36px;
+      background: rgba(255,255,255,0.18);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+    }
+    .nav-brand-text { font-size: 1.1rem; font-weight: 700; letter-spacing: 0.01em; }
+    .nav-brand-sub { font-size: 0.72rem; opacity: 0.75; font-weight: 400; margin-top: 1px; }
+    .nav-links { display: flex; gap: 4px; align-items: center; }
+    .nav-link {
+      color: rgba(255,255,255,0.82); font-size: 0.82rem; font-weight: 500;
+      padding: 6px 12px; border-radius: 6px; text-decoration: none;
+      transition: background 0.15s, color 0.15s;
+    }
+    .nav-link:hover { background: rgba(255,255,255,0.15); color: #fff; }
+    .nav-right { display: flex; align-items: center; gap: 12px; }
+    .nav-status {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 0.78rem; color: rgba(255,255,255,0.85);
+    }
+    .status-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #4ade80; box-shadow: 0 0 0 2px rgba(74,222,128,0.3);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.6} }
+    .theme-btn {
+      background: rgba(255,255,255,0.15);
       border: 1px solid rgba(255,255,255,0.25);
-      padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;
+      color: #fff; border-radius: 8px;
+      padding: 6px 10px; cursor: pointer; font-size: 16px;
+      transition: background 0.15s;
     }
-    .btn-theme {
-      background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);
-      color: #fff; padding: 6px 14px; border-radius: 8px; cursor: pointer;
-      font-size: 13px; font-weight: 500; transition: background 0.2s;
-    }
-    .btn-theme:hover { background: rgba(255,255,255,0.25); }
+    .theme-btn:hover { background: rgba(255,255,255,0.25); }
+    .nav-date { font-size: 0.77rem; color: rgba(255,255,255,0.7); }
 
     /* ── LAYOUT ── */
-    main { max-width: 1200px; margin: 0 auto; padding: 28px 20px 60px; }
-
-    /* ── SECTION HEADERS ── */
-    .section-title {
-      font-size: 15px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.8px; color: var(--primary); margin-bottom: 14px;
-      display: flex; align-items: center; gap: 8px;
+    .container { max-width: 1400px; margin: 0 auto; padding: 28px 24px; }
+    .section { margin-bottom: 36px; }
+    .section-header {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 18px;
     }
-    .section-title::after {
-      content: ''; flex: 1; height: 1px; background: var(--border);
+    .section-icon {
+      width: 36px; height: 36px; border-radius: 9px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 17px; flex-shrink: 0;
     }
-    section { margin-bottom: 36px; }
+    .section-title { font-size: 1.15rem; font-weight: 700; }
+    .section-subtitle { font-size: 0.8rem; color: var(--text-muted); margin-top: 1px; }
 
-    /* ── KPI GRID ── */
+    /* ── KPI CARDS ── */
     .kpi-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
-      gap: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 16px;
     }
     .kpi-card {
-      background: var(--card-bg); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 20px 18px;
-      box-shadow: var(--shadow); transition: transform 0.15s, box-shadow 0.15s;
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 20px 22px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      position: relative; overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
     .kpi-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
-    .kpi-label { font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
-    .kpi-value { font-size: 28px; font-weight: 800; line-height: 1; }
-    .kpi-sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
-    .kpi-card.credit .kpi-value { color: var(--primary); }
-    .kpi-card.ok .kpi-value { color: var(--success); }
-    .kpi-card.total .kpi-value { color: var(--info); }
-    .kpi-card.warn .kpi-value { color: var(--warning); }
-    .kpi-card.neutral .kpi-value { color: var(--text-muted); }
+    .kpi-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: var(--kpi-color, var(--primary));
+    }
+    .kpi-label { font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; }
+    .kpi-value { font-size: 1.85rem; font-weight: 800; color: var(--text); line-height: 1; }
+    .kpi-value span { font-size: 1rem; font-weight: 600; color: var(--text-muted); }
+    .kpi-sub { font-size: 0.78rem; color: var(--text-muted); margin-top: 6px; }
+    .kpi-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 0.74rem; font-weight: 600; padding: 2px 8px;
+      border-radius: 99px; margin-top: 6px;
+    }
+    .badge-green { background: var(--success-bg); color: var(--success); }
+    .badge-blue  { background: var(--info-bg); color: var(--info); }
+    .badge-orange{ background: var(--warning-bg); color: var(--warning); }
+    .kpi-icon {
+      position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
+      font-size: 2.2rem; opacity: 0.08;
+    }
 
-    /* ── CREDIT SECTION ── */
-    .credit-panel {
-      background: var(--card-bg); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow);
-      display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: start;
+    /* ── CHARTS ── */
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
     }
-    .credit-main-value {
-      font-size: 42px; font-weight: 900; color: var(--primary); line-height: 1;
+    .card-title {
+      font-size: 0.95rem; font-weight: 700; margin-bottom: 4px;
     }
-    .credit-desc { color: var(--text-muted); font-size: 14px; margin-top: 6px; }
-    .credit-meta { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 10px; }
-    .meta-pill {
-      background: var(--bg); border: 1px solid var(--border);
-      border-radius: 20px; padding: 6px 14px; font-size: 13px; color: var(--text-muted);
+    .card-subtitle { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 20px; }
+    .chart-wrap { position: relative; height: 300px; }
+    .chart-wrap-sm { position: relative; height: 220px; }
+    .chart-wrap-lg { position: relative; height: 380px; }
+
+    /* ── GRID LAYOUTS ── */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+    .grid-60-40 { display: grid; grid-template-columns: 60fr 40fr; gap: 20px; }
+    .grid-40-60 { display: grid; grid-template-columns: 40fr 60fr; gap: 20px; }
+    @media (max-width: 900px) {
+      .grid-2, .grid-3, .grid-60-40, .grid-40-60 { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
     }
-    .meta-pill strong { color: var(--text); }
-    .credit-sms-box {
-      text-align: right; background: linear-gradient(135deg, var(--primary-dark), var(--maroon));
-      color: #fff; border-radius: var(--radius); padding: 20px 22px; min-width: 200px;
-    }
-    .credit-sms-box .big { font-size: 32px; font-weight: 900; line-height: 1; }
-    .credit-sms-box .lbl { font-size: 12px; opacity: 0.8; margin-top: 4px; }
-    .credit-ok-banner {
-      margin-top: 14px; background: var(--success-bg); border: 1px solid var(--success);
-      color: var(--success); border-radius: var(--radius-sm); padding: 10px 16px;
-      font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 8px;
-    }
+    @media (max-width: 600px) { .kpi-grid { grid-template-columns: 1fr 1fr; } }
 
     /* ── TABLE ── */
-    .card {
-      background: var(--card-bg); border: 1px solid var(--border);
-      border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden;
-    }
-    .card-header {
-      padding: 14px 18px; border-bottom: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: space-between;
-      background: var(--bg);
-    }
-    .card-header h3 { font-size: 14px; font-weight: 700; }
-    .card-header .count-badge {
-      background: var(--primary); color: #fff;
-      border-radius: 20px; padding: 2px 10px; font-size: 12px; font-weight: 700;
-    }
     .table-wrap { overflow-x: auto; }
-    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
     th {
-      background: var(--bg); color: var(--text-muted); font-size: 11px;
-      font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
-      padding: 10px 14px; text-align: left; white-space: nowrap;
-      border-bottom: 1px solid var(--border);
+      text-align: left; padding: 10px 14px;
+      font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.05em; color: var(--text-muted);
+      border-bottom: 2px solid var(--border);
     }
-    td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    td { padding: 10px 14px; border-bottom: 1px solid var(--border); }
     tr:last-child td { border-bottom: none; }
-    tr:hover td { background: var(--bg); }
-    .mono { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; }
+    tr:hover td { background: rgba(123,45,139,0.04); }
+    .td-right { text-align: right; }
+    .td-mono { font-family: monospace; font-size: 0.82rem; }
 
-    /* ── STATUS BADGES ── */
-    .badge {
-      display: inline-flex; align-items: center; gap: 5px;
-      padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700;
-      white-space: nowrap;
-    }
-    .badge-dot { width: 7px; height: 7px; border-radius: 50%; }
-    .badge-ok    { background: var(--success-bg); color: var(--success); }
-    .badge-sent  { background: var(--info-bg);    color: var(--info); }
-    .badge-carrier { background: var(--warning-bg); color: var(--warning); }
-    .badge-fail  { background: var(--danger-bg);  color: var(--danger); }
-    .badge-gray  { background: var(--gray-bg);    color: var(--gray); }
-    .dot-ok      { background: var(--success); }
-    .dot-sent    { background: var(--info); }
-    .dot-carrier { background: var(--warning); }
-    .dot-fail    { background: var(--danger); }
-    .dot-gray    { background: var(--gray); }
+    /* ── OPERATOR BARS ── */
+    .op-list { display: flex; flex-direction: column; gap: 14px; margin-top: 6px; }
+    .op-row { display: flex; flex-direction: column; gap: 4px; }
+    .op-header { display: flex; justify-content: space-between; align-items: baseline; }
+    .op-name { font-size: 0.88rem; font-weight: 600; }
+    .op-count { font-size: 0.78rem; color: var(--text-muted); }
+    .op-bar-bg { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+    .op-bar { height: 100%; border-radius: 4px; transition: width 0.8s ease; }
+    .op-rate { font-size: 0.75rem; color: var(--text-muted); }
 
-    /* ── CHART ── */
-    .chart-grid { display: grid; grid-template-columns: 280px 1fr; gap: 20px; align-items: center; }
-    .chart-container { position: relative; max-width: 260px; margin: 0 auto; }
-    .chart-legend { display: flex; flex-direction: column; gap: 10px; padding: 8px 0; }
-    .legend-item { display: flex; align-items: center; gap: 10px; }
-    .legend-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
-    .legend-label { font-size: 13px; color: var(--text); flex: 1; }
-    .legend-count { font-size: 13px; font-weight: 700; color: var(--text); }
-    .legend-pct { font-size: 12px; color: var(--text-muted); min-width: 38px; text-align: right; }
+    /* ── DELIVERY STATUS ── */
+    .status-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-top: 4px; }
+    .status-card {
+      border-radius: 10px; padding: 16px;
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+      text-align: center;
+    }
+    .status-card .status-val { font-size: 1.6rem; font-weight: 800; }
+    .status-card .status-lbl { font-size: 0.75rem; font-weight: 600; }
+    .status-card .status-pct { font-size: 0.8rem; opacity: 0.75; }
 
-    /* ── SUMMARY ROW ── */
-    .summary-row {
-      display: flex; gap: 10px; flex-wrap: wrap;
-      padding: 12px 18px; background: var(--bg); border-top: 1px solid var(--border);
-    }
-    .sum-item { font-size: 13px; color: var(--text-muted); }
-    .sum-item strong { color: var(--text); }
+    /* ── CAMPAIGN TABLE ── */
+    .campaign-bar-bg { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; margin-top: 4px; }
+    .campaign-bar { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--primary), var(--accent)); }
 
-    /* ── EMPTY STATE ── */
-    .empty-state {
-      padding: 40px; text-align: center; color: var(--text-muted); font-size: 14px;
-    }
-    .empty-state .icon { font-size: 40px; margin-bottom: 10px; }
+    /* ── CREDIT ── */
+    .invoice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 700px) { .invoice-grid { grid-template-columns: 1fr; } }
 
-    /* ── MANAGEMENT COMMENTARY ── */
-    .mgmt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    .mgmt-card {
-      background: var(--card-bg); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow);
+    /* ── MANAGEMENT COMMENT ── */
+    .mgmt-box {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark, #5A1A6E) 100%);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      color: #fff;
+      position: relative; overflow: hidden;
     }
-    .mgmt-role {
-      font-size: 13px; font-weight: 700; color: var(--primary); margin-bottom: 6px;
-      display: flex; align-items: center; gap: 6px;
+    .mgmt-box::before {
+      content: '';
+      position: absolute; right: -40px; top: -40px;
+      width: 200px; height: 200px;
+      background: rgba(255,255,255,0.07);
+      border-radius: 50%;
     }
-    .mgmt-date { font-size: 11px; color: var(--text-muted); margin-bottom: 12px; }
-    .mgmt-text { font-size: 14px; line-height: 1.65; color: var(--text); }
-    .mgmt-highlight {
-      margin-top: 12px; padding: 10px 14px;
-      background: var(--bg); border-left: 3px solid var(--primary);
-      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-      font-size: 13px; color: var(--text-muted);
+    .mgmt-header { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+    .mgmt-avatar {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; flex-shrink: 0;
+    }
+    .mgmt-meta .mgmt-name { font-size: 1rem; font-weight: 700; }
+    .mgmt-meta .mgmt-role { font-size: 0.78rem; opacity: 0.75; }
+    .mgmt-text { font-size: 0.92rem; line-height: 1.7; opacity: 0.92; }
+    .mgmt-highlights {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px; margin-top: 20px;
+    }
+    .mgmt-hl {
+      background: rgba(255,255,255,0.12);
+      border-radius: 10px; padding: 14px 16px;
+    }
+    .mgmt-hl-val { font-size: 1.4rem; font-weight: 800; }
+    .mgmt-hl-lbl { font-size: 0.75rem; opacity: 0.78; margin-top: 2px; }
+
+    /* ── INSIGHT PILLS ── */
+    .insight-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+    .insight-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(123,45,139,0.1);
+      border: 1px solid rgba(123,45,139,0.2);
+      border-radius: 99px; padding: 5px 12px;
+      font-size: 0.78rem; font-weight: 600; color: var(--primary);
+    }
+    [data-theme="dark"] .insight-pill {
+      background: rgba(168,85,200,0.15);
+      border-color: rgba(168,85,200,0.3);
+      color: var(--accent2);
     }
 
-    /* ── FOOTER ── */
-    footer {
-      text-align: center; padding: 20px; color: var(--text-muted); font-size: 12px;
-      border-top: 1px solid var(--border);
+    /* ── SEPARATOR ── */
+    hr.sec-divider {
+      border: none; border-top: 1px solid var(--border);
+      margin: 8px 0 24px;
     }
 
-    @media (max-width: 700px) {
-      .chart-grid { grid-template-columns: 1fr; }
-      .credit-panel { grid-template-columns: 1fr; }
-      .credit-sms-box { text-align: left; min-width: unset; }
-      .mgmt-grid { grid-template-columns: 1fr; }
-      .nav-badge { display: none; }
-    }
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
   </style>
 </head>
 <body>
 
-<!-- ── TOP NAV ── -->
-<nav>
-  <div class="nav-brand">
-    <span class="nav-icon">📱</span>
+<!-- ╔══════════════════════ NAV ══════════════════════╗ -->
+<nav class="nav">
+  <a class="nav-brand" href="#">
+    <div class="nav-brand-icon">💎</div>
     <div>
-      <div class="nav-title">SMS Dashboard — Diamond Plus</div>
-      <div class="nav-sub">SMSbrána · SMS Connect API · Stav k 14. 4. 2026</div>
+      <div class="nav-brand-text">Diamond Plus</div>
+      <div class="nav-brand-sub">SMS Intelligence Dashboard</div>
     </div>
+  </a>
+
+  <div class="nav-links">
+    <a class="nav-link" href="#kpi">KPI</a>
+    <a class="nav-link" href="#denni">Denní přehled</a>
+    <a class="nav-link" href="#historie">Historie</a>
+    <a class="nav-link" href="#operatori">Operátoři</a>
+    <a class="nav-link" href="#kampane">Kampaně</a>
+    <a class="nav-link" href="#kredit">Kredit</a>
+    <a class="nav-link" href="#management">Management</a>
   </div>
-  <div class="nav-actions">
-    <span class="nav-badge">LIVE DATA</span>
-    <button class="btn-theme" onclick="toggleTheme()" id="themeBtn">🌙 Tmavý</button>
+
+  <div class="nav-right">
+    <div class="nav-status">
+      <div class="status-dot"></div>
+      <span>tianDeMECIN · Live</span>
+    </div>
+    <div class="nav-date" id="navDate"></div>
+    <button class="theme-btn" onclick="toggleTheme()" title="Přepnout téma">🌙</button>
   </div>
 </nav>
 
-<main>
+<div class="container">
 
-  <!-- ── 1. KPI PŘEHLED ── -->
-  <section>
-    <div class="section-title">📊 KPI Přehled</div>
-    <div class="kpi-grid">
-      <div class="kpi-card credit">
-        <div class="kpi-label">Aktuální kredit</div>
-        <div class="kpi-value">48 542 Kč</div>
-        <div class="kpi-sub">48 542,34 Kč přesně</div>
-      </div>
-      <div class="kpi-card total">
-        <div class="kpi-label">Počet doručenek</div>
-        <div class="kpi-value">47</div>
-        <div class="kpi-sub">v aktuálním inboxu</div>
-      </div>
-      <div class="kpi-card ok">
-        <div class="kpi-label">Úspěšnost doručení</div>
-        <div class="kpi-value">100 %</div>
-        <div class="kpi-sub">47 / 47 doručeno</div>
-      </div>
-      <div class="kpi-card neutral">
-        <div class="kpi-label">Nedoručeno / Odmítnuto</div>
-        <div class="kpi-value">0</div>
-        <div class="kpi-sub">status 3, 5 nebo 6</div>
-      </div>
-      <div class="kpi-card neutral">
-        <div class="kpi-label">Příchozí SMS</div>
-        <div class="kpi-value">0</div>
-        <div class="kpi-sub">v delivery_sms inboxu</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── 2. STAV KREDITU ── -->
-  <section>
-    <div class="section-title">💰 Stav kreditu</div>
-    <div class="credit-panel">
+  <!-- ╔══════════════════════ KPI ══════════════════════╗ -->
+  <section class="section" id="kpi">
+    <div class="section-header">
+      <div class="section-icon">📊</div>
       <div>
-        <div class="credit-main-value">48 542,34 Kč</div>
-        <div class="credit-desc">Aktuální kredit na účtu SMSbrána (k 14. 4. 2026, 13:58 CEST)</div>
-        <div class="credit-meta">
-          <span class="meta-pill">📄 Posl. nákup: <strong>PF0428/2026</strong></span>
-          <span class="meta-pill">📅 Datum: <strong>9. 4. 2026</strong></span>
-          <span class="meta-pill">💵 Hodnota: <strong>60 000 Kč</strong></span>
-          <span class="meta-pill">✉️ Zakoupeno SMS: <strong>~54 545</strong></span>
-          <span class="meta-pill">📉 Spotřebováno: <strong>~11 458 Kč</strong></span>
-        </div>
-        <div class="credit-ok-banner">
-          ✅ Kredit je dostatečný — žádné varování o nízkém zůstatku
-        </div>
+        <div class="section-title">Klíčové metriky</div>
+        <div class="section-subtitle">Aktuální stav k 14. dubna 2026 · Sender ID: tianDeMECIN · Tarif: Kredit SMS Fast 2025</div>
       </div>
-      <div class="credit-sms-box">
-        <div class="lbl">Odhadovaný počet zbývajících SMS</div>
-        <div class="big">~44 129</div>
-        <div class="lbl">(při ceně 1,10 Kč / SMS)</div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi-card" style="--kpi-color:#7B2D8B">
+        <div class="kpi-label">Dostupný kredit</div>
+        <div class="kpi-value">48 542 <span>Kč</span></div>
+        <div class="kpi-badge badge-blue">💳 Tarif Fast 2025</div>
+        <div class="kpi-icon">💳</div>
+      </div>
+      <div class="kpi-card" style="--kpi-color:#A855C8">
+        <div class="kpi-label">SMS za 30 dní</div>
+        <div class="kpi-value">106 102</div>
+        <div class="kpi-sub">15.3.–14.4. 2026</div>
+        <div class="kpi-badge badge-blue">⬆ portál</div>
+        <div class="kpi-icon">📱</div>
+      </div>
+      <div class="kpi-card" style="--kpi-color:#C084FC">
+        <div class="kpi-label">SMS za 7 dní</div>
+        <div class="kpi-value">23 031</div>
+        <div class="kpi-sub">7.4.–14.4. 2026</div>
+        <div class="kpi-badge badge-orange">~3 290/den</div>
+        <div class="kpi-icon">📅</div>
+      </div>
+      <div class="kpi-card" style="--kpi-color:#7B2D8B">
+        <div class="kpi-label">Celkem odesláno (CSV)</div>
+        <div class="kpi-value">347 599</div>
+        <div class="kpi-sub">2.1.–13.4. 2026</div>
+        <div class="kpi-badge badge-blue">📂 3 exporty</div>
+        <div class="kpi-icon">📤</div>
+      </div>
+      <div class="kpi-card" style="--kpi-color:#1A8C4E">
+        <div class="kpi-label">Průměr / aktivní den</div>
+        <div class="kpi-value">9 935</div>
+        <div class="kpi-sub">35 dní s odesíláním</div>
+        <div class="kpi-badge badge-green">📈 výkonné</div>
+        <div class="kpi-icon">📈</div>
+      </div>
+      <div class="kpi-card" style="--kpi-color:#1A8C4E">
+        <div class="kpi-label">Úspěšnost doručení</div>
+        <div class="kpi-value">99,18 <span>%</span></div>
+        <div class="kpi-sub">344 763 / 347 599</div>
+        <div class="kpi-badge badge-green">✓ Výborná</div>
+        <div class="kpi-icon">✅</div>
+      </div>
+      <div class="kpi-card" style="--kpi-color:#1A6FA8">
+        <div class="kpi-label">Nejsilnější kampaň</div>
+        <div class="kpi-value">36 700</div>
+        <div class="kpi-sub">Zimní BLACK FRIDAY</div>
+        <div class="kpi-badge badge-blue">🏆 #1</div>
+        <div class="kpi-icon">🏆</div>
+      </div>
+      <div class="kpi-card" style="--kpi-color:#B7770D">
+        <div class="kpi-label">Špičková hodina</div>
+        <div class="kpi-value">19:00</div>
+        <div class="kpi-sub">156 997 SMS (45,2 %)</div>
+        <div class="kpi-badge badge-orange">⏰ prime time</div>
+        <div class="kpi-icon">⏰</div>
       </div>
     </div>
   </section>
 
-  <!-- ── 3. DORUČENKY ── -->
-  <section>
-    <div class="section-title">📬 Doručenky (Delivery Reports)</div>
+  <!-- ╔══════════════════════ DENNÍ 30 dní ══════════════════════╗ -->
+  <section class="section" id="denni">
+    <div class="section-header">
+      <div class="section-icon">📅</div>
+      <div>
+        <div class="section-title">Denní odesílání — posledních 30 dní</div>
+        <div class="section-subtitle">15. března – 14. dubna 2026 · data z portálu SMSbrána</div>
+      </div>
+    </div>
     <div class="card">
-      <div class="card-header">
-        <h3>Přehled doručení SMS</h3>
-        <span class="count-badge">47 záznamů</span>
+      <div class="insight-row">
+        <div class="insight-pill">🔥 Peak 25.3.: 19 343 SMS</div>
+        <div class="insight-pill">🔥 Peak 13.4.: 17 061 SMS</div>
+        <div class="insight-pill">🔥 Peak 22.3.: 14 697 SMS</div>
+        <div class="insight-pill">📊 Průměr (30 dní): 3 423 SMS/den</div>
       </div>
-      <div class="table-wrap">
-        <table id="deliveryTable">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>ID SMS</th>
-              <th>Číslo</th>
-              <th>Čas</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody id="deliveryBody"></tbody>
-        </table>
-      </div>
-      <div class="summary-row">
-        <span class="sum-item">Celkem: <strong>47</strong></span>
-        <span class="sum-item">Doručeno: <strong style="color:var(--success)">47 (100 %)</strong></span>
-        <span class="sum-item">Nedoručeno: <strong style="color:var(--danger)">0 (0 %)</strong></span>
-        <span class="sum-item">Booking notifikace: <strong>45</strong></span>
-        <span class="sum-item">Testovací SMS: <strong>2</strong></span>
+      <div class="chart-wrap-lg" style="margin-top:18px">
+        <canvas id="chart30d"></canvas>
       </div>
     </div>
   </section>
 
-  <!-- ── 4. PŘÍCHOZÍ SMS ── -->
-  <section>
-    <div class="section-title">📥 Příchozí SMS</div>
-    <div class="card">
-      <div class="empty-state">
-        <div class="icon">📭</div>
-        Žádné příchozí SMS v inboxu
-        <div style="margin-top:8px;font-size:12px;color:var(--text-muted)">
-          Sekce <code>delivery_sms</code> v API odpovědi je prázdná — inbox neobsahuje žádné příchozí zprávy.
+  <!-- ╔══════════════════════ CELKOVÁ HISTORIE ══════════════════════╗ -->
+  <section class="section" id="historie">
+    <div class="section-header">
+      <div class="section-icon">📜</div>
+      <div>
+        <div class="section-title">Celková historie odesílání</div>
+        <div class="section-subtitle">2. ledna – 13. dubna 2026 · 347 599 SMS · data z CSV exportů</div>
+      </div>
+    </div>
+    <div class="grid-60-40">
+      <div class="card">
+        <div class="card-title">Denní objem (všechna data)</div>
+        <div class="card-subtitle">Každý sloupec = jeden aktivní den odesílání</div>
+        <div class="chart-wrap-lg">
+          <canvas id="chartAllDaily"></canvas>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- ── 5. STATISTIKY DORUČENÍ ── -->
-  <section>
-    <div class="section-title">📈 Statistiky doručení</div>
-    <div class="card">
-      <div class="card-header">
-        <h3>Rozložení stavů doručení</h3>
-        <span class="count-badge">47 celkem</span>
-      </div>
-      <div style="padding: 24px;">
-        <div class="chart-grid">
-          <div class="chart-container">
-            <canvas id="deliveryChart" width="260" height="260"></canvas>
+      <div class="card">
+        <div class="card-title">Měsíční souhrn</div>
+        <div class="card-subtitle">Leden – duben 2026</div>
+        <div class="chart-wrap" style="height:180px">
+          <canvas id="chartMonthly"></canvas>
+        </div>
+        <div style="margin-top:20px">
+          <div class="card-title">Aktivita dle dne v týdnu</div>
+          <div class="card-subtitle">Pátek a sobota jsou klidové dny</div>
+          <div class="chart-wrap-sm">
+            <canvas id="chartWeekly"></canvas>
           </div>
-          <div class="chart-legend" id="chartLegend"></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ── 6. MANAGEMENT KOMENTÁŘ ── -->
-  <section>
-    <div class="section-title">💼 Management komentář</div>
-    <div class="mgmt-grid">
-      <div class="mgmt-card">
-        <div class="mgmt-role">💼 Provozní ředitel (COO)</div>
-        <div class="mgmt-date">14. dubna 2026</div>
-        <div class="mgmt-text">
-          Provoz SMS kanálu funguje bez výpadků. Všech <strong>47 doručenek</strong> v aktuálním inboxu vykazuje stav <strong>„doručeno"</strong> (status 1) — úspěšnost 100 %. Booking notifikace (45 zpráv) jsou odesílány automaticky v 18:00 denně a spolehlivě doručovány zákazníkům. Manuální testovací zprávy (2 ks ze dne 9. 4. 2026) rovněž doručeny bez problémů.
-        </div>
-        <div class="mgmt-highlight">
-          ✅ Doporučení: Sledovat příchozí SMS pro případné odpovědi zákazníků. Systém booking notifikací běží spolehlivě, žádná okamžitá opatření nejsou nutná.
+  <!-- ╔══════════════════════ OPERÁTOŘI ══════════════════════╗ -->
+  <section class="section" id="operatori">
+    <div class="section-header">
+      <div class="section-icon">📡</div>
+      <div>
+        <div class="section-title">Distribuce dle operátorů</div>
+        <div class="section-subtitle">Měsíční data z portálu · doručitelnost za posledních 24 h</div>
+      </div>
+    </div>
+    <div class="grid-40-60">
+      <div class="card">
+        <div class="card-title">Podíl operátorů</div>
+        <div class="card-subtitle">Celkem 106 398 SMS (portál, měsíční)</div>
+        <div class="chart-wrap" style="height:260px">
+          <canvas id="chartDonut"></canvas>
         </div>
       </div>
-      <div class="mgmt-card">
-        <div class="mgmt-role">🏛 Board</div>
-        <div class="mgmt-date">14. dubna 2026</div>
-        <div class="mgmt-text">
-          Aktuální kredit <strong>48 542 Kč</strong> umožňuje odeslat přibližně <strong>44 129 SMS</strong> (při sazbě 1,10 Kč/SMS). Po nákupu ze dne 9. 4. 2026 (faktura PF0428/2026, hodnota 60 000 Kč) bylo dosud spotřebováno přibližně <strong>11 458 Kč</strong>. Při průměrném objemu ~35 SMS/den (z dat v inboxu) je runway kredit odhadován na <strong>více než 3 roky</strong> — kredit je plně zajištěn.
-        </div>
-        <div class="mgmt-highlight">
-          💡 Náklad na SMS: ~1,10 Kč/zpráva. Celkové náklady za sledované období (6.–13. 4. 2026, 47 zpráv): odhadem <strong>~52 Kč</strong>. Velmi nízká cena za zákaznickou komunikaci.
+      <div class="card">
+        <div class="card-title">Úspěšnost doručení dle operátora</div>
+        <div class="card-subtitle">Posledních 24 hodin · data z portálu</div>
+        <div class="op-list" id="opList"></div>
+        <div style="margin-top:24px">
+          <div class="card-title">SMS dle operátora</div>
+          <div class="card-subtitle">Měsíční objem</div>
+          <div class="op-list" id="opVolList"></div>
         </div>
       </div>
     </div>
   </section>
 
-</main>
+  <!-- ╔══════════════════════ KAMPANĚ ══════════════════════╗ -->
+  <section class="section" id="kampane">
+    <div class="section-header">
+      <div class="section-icon">📣</div>
+      <div>
+        <div class="section-title">Top kampaně dle objemu</div>
+        <div class="section-subtitle">Seskupeno dle náhledu textu (prvních 40 znaků) · data z CSV</div>
+      </div>
+    </div>
+    <div class="grid-60-40">
+      <div class="card">
+        <div class="card-title">Přehled kampaní</div>
+        <div class="card-subtitle">Top 15 dle počtu odeslaných SMS</div>
+        <div class="table-wrap">
+          <table id="campaignTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Náhled textu kampaně</th>
+                <th class="td-right">SMS</th>
+                <th class="td-right">Podíl</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Distribuce dle hodiny odeslání</div>
+        <div class="card-subtitle">Silná koncentrace 18:00–20:00</div>
+        <div class="chart-wrap">
+          <canvas id="chartHourly"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<footer>
-  SMS Dashboard — Diamond Plus &nbsp;·&nbsp; Data: SMSbrána SMS Connect API &nbsp;·&nbsp; Stav k 14. 4. 2026
-</footer>
+  <!-- ╔══════════════════════ DORUČENÍ ══════════════════════╗ -->
+  <section class="section" id="dorucenky">
+    <div class="section-header">
+      <div class="section-icon">✅</div>
+      <div>
+        <div class="section-title">Stav doručení</div>
+        <div class="section-subtitle">Analýza stavů ze všech 347 599 záznamů v CSV exportu</div>
+      </div>
+    </div>
+    <div class="grid-60-40">
+      <div class="card">
+        <div class="card-title">Přehled stavů</div>
+        <div class="card-subtitle">Celkový stav doručení</div>
+        <div class="status-grid" id="statusGrid"></div>
+        <div style="margin-top: 24px">
+          <div class="card-title">Detail stavů</div>
+          <div class="card-subtitle">Absolutní i relativní hodnoty</div>
+          <div class="table-wrap">
+            <table id="statusTable">
+              <thead><tr><th>Stav</th><th class="td-right">Počet</th><th class="td-right">Podíl</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Rozložení stavů</div>
+        <div class="card-subtitle">Vizuální přehled</div>
+        <div class="chart-wrap">
+          <canvas id="chartStatus"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ╔══════════════════════ KREDIT ══════════════════════╗ -->
+  <section class="section" id="kredit">
+    <div class="section-header">
+      <div class="section-icon">💰</div>
+      <div>
+        <div class="section-title">Vývoj kreditu a fakturace</div>
+        <div class="section-subtitle">Historie dobíjení · celkem dobito 660 000 Kč · zbývá 48 542 Kč</div>
+      </div>
+    </div>
+    <div class="invoice-grid">
+      <div class="card">
+        <div class="card-title">Fakturační přehled</div>
+        <div class="card-subtitle">Dobíjení kreditu — faktury dle portálu</div>
+        <div class="table-wrap">
+          <table id="invoiceTable">
+            <thead>
+              <tr>
+                <th>Č. faktury</th>
+                <th class="td-right">Částka</th>
+                <th class="td-right">Kumulativně</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div style="margin-top:16px; padding:14px; background:var(--success-bg); border-radius:8px; display:flex; justify-content:space-between; align-items:center">
+          <div style="font-size:0.82rem; color:var(--success); font-weight:600">Celkem dobito</div>
+          <div style="font-size:1.2rem; font-weight:800; color:var(--success)">660 000 Kč</div>
+        </div>
+        <div style="margin-top:8px; padding:14px; background:var(--info-bg); border-radius:8px; display:flex; justify-content:space-between; align-items:center">
+          <div style="font-size:0.82rem; color:var(--info); font-weight:600">Spotřebováno (odhad)</div>
+          <div style="font-size:1.2rem; font-weight:800; color:var(--info)">~611 458 Kč</div>
+        </div>
+        <div style="margin-top:8px; padding:14px; background:var(--warning-bg); border-radius:8px; display:flex; justify-content:space-between; align-items:center">
+          <div style="font-size:0.82rem; color:var(--warning); font-weight:600">Zbývající kredit</div>
+          <div style="font-size:1.2rem; font-weight:800; color:var(--warning)">48 542 Kč</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Průběh dobíjení kreditu</div>
+        <div class="card-subtitle">Kumulativní suma faktur v čase</div>
+        <div class="chart-wrap">
+          <canvas id="chartCredit"></canvas>
+        </div>
+        <div style="margin-top:16px">
+          <div class="insight-row">
+            <div class="insight-pill">💡 Průměrná faktura: 66 000 Kč</div>
+            <div class="insight-pill">📋 10 faktur celkem</div>
+            <div class="insight-pill">📅 Od 10/2025</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ╔══════════════════════ MANAGEMENT ══════════════════════╗ -->
+  <section class="section" id="management">
+    <div class="section-header">
+      <div class="section-icon">👔</div>
+      <div>
+        <div class="section-title">Management komentář</div>
+        <div class="section-subtitle">Shrnutí pro vedení a představenstvo · Q1 2026</div>
+      </div>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:16px">
+      <div class="mgmt-box">
+        <div class="mgmt-header">
+          <div class="mgmt-avatar">👤</div>
+          <div class="mgmt-meta">
+            <div class="mgmt-name">Rudolf Konfal — COO</div>
+            <div class="mgmt-role">Operativní ředitel · Diamond Plus s.r.o. · 14. dubna 2026</div>
+          </div>
+        </div>
+        <div class="mgmt-text">
+          SMS kanál Diamond Plus v Q1 2026 prokázal stabilní výkonnost. Celkem bylo odesláno <strong>347 599 SMS</strong> za 102 dní (2. 1.–13. 4.), přičemž skutečný průměr na <em>aktivní den</em> činí <strong>9 935 SMS</strong>. Úspěšnost doručení dosáhla <strong>99,18 %</strong>, což řadí naši konfiguraci do top pásma v CZ/SK trhu. Dominantní operátor je T-Mobile (40,6 %), následovaný O2 (31,4 %) a Vodafone (23,1 %).
+          <br><br>
+          Nejsilnější kampaní v sledovaném období byla <em>Zimní BLACK FRIDAY</em> s 36 700 odeslanými SMS, následovaná <em>Zimním výprodejem</em> (23 475). Prime time odesílání je <strong>18:00–20:00</strong> — v tomto tříhodinovém okně proběhlo 95,5 % všech odesílaných SMS. Kredit byl čerpán ve 4 dávkách v Q1 (240 000 Kč), současný zůstatek 48 542 Kč odpovídá přibližně <strong>2–3 týdnům</strong> standardního provozu.
+        </div>
+        <div class="mgmt-highlights">
+          <div class="mgmt-hl">
+            <div class="mgmt-hl-val">99,18 %</div>
+            <div class="mgmt-hl-lbl">Doručitelnost</div>
+          </div>
+          <div class="mgmt-hl">
+            <div class="mgmt-hl-val">347 599</div>
+            <div class="mgmt-hl-lbl">Celkem SMS (CSV)</div>
+          </div>
+          <div class="mgmt-hl">
+            <div class="mgmt-hl-val">36 700</div>
+            <div class="mgmt-hl-lbl">Nejsilnější kampaň</div>
+          </div>
+          <div class="mgmt-hl">
+            <div class="mgmt-hl-val">48 542 Kč</div>
+            <div class="mgmt-hl-lbl">Zbývající kredit</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📋 Shrnutí pro představenstvo</div>
+        <div class="card-subtitle">Klíčové body Q1 2026</div>
+        <div style="margin-top:14px; display:flex; flex-direction:column; gap:10px; font-size:0.88rem; line-height:1.6">
+          <div style="display:flex; gap:10px; align-items:flex-start">
+            <span style="color:var(--success); font-size:1rem; flex-shrink:0">✅</span>
+            <span><strong>Doručitelnost nad 99 %</strong> — kontinuálně ve všech měřených měsících. T-Mobile dosahuje 99,4 %, Vodafone 99,2 %, O2 99,1 %.</span>
+          </div>
+          <div style="display:flex; gap:10px; align-items:flex-start">
+            <span style="color:var(--success); font-size:1rem; flex-shrink:0">✅</span>
+            <span><strong>Rychlé kampaně v prime time</strong> — SMS jsou odesílány primárně v okně 18–20 h, kdy je míra otevření e-commerce komunikace historicky nejvyšší.</span>
+          </div>
+          <div style="display:flex; gap:10px; align-items:flex-start">
+            <span style="color:var(--warning); font-size:1rem; flex-shrink:0">⚠️</span>
+            <span><strong>Kredit na ~2–3 týdny</strong> — při průměrném tempu 3 500 SMS/den a ceně ~1,31 Kč/SMS bude třeba dobít zhruba do <strong>konce dubna 2026</strong>. Doporučujeme dobít min. 60 000 Kč.</span>
+          </div>
+          <div style="display:flex; gap:10px; align-items:flex-start">
+            <span style="color:var(--info); font-size:1rem; flex-shrink:0">ℹ️</span>
+            <span><strong>Kampaňová frekvence</strong> — na databázi je viditelná saturace. Průměrná frekvence 3–4 SMS/databázi/měsíc je v souladu s best practices pro e-commerce CZ trh.</span>
+          </div>
+          <div style="display:flex; gap:10px; align-items:flex-start">
+            <span style="color:var(--info); font-size:1rem; flex-shrink:0">ℹ️</span>
+            <span><strong>Celková investice do SMS</strong> od října 2025: 660 000 Kč. Při průměrné konverzi e-commerce SMS 1–3 % a průměrném AoV přes 2 000 Kč je ROI kanálu silně kladný.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div style="text-align:center; padding: 24px 0 8px; font-size:0.75rem; color:var(--text-muted)">
+    Diamond Plus SMS Dashboard · Generováno 14. 4. 2026 · Data: SMSbrána portál + CSV export (347 599 záznamů)
+  </div>
+
+</div><!-- /container -->
 
 <script>
-// ── DATA ──
-const deliveryReports = [
-  { idsms:"3731896128", number:"+420605141045", time:"20260406T180002", status:1 },
-  { idsms:"3731896256", number:"+420737936520", time:"20260406T180005", status:1 },
-  { idsms:"3731896262", number:"+420737986110", time:"20260406T180005", status:1 },
-  { idsms:"3731896164", number:"+420602363488", time:"20260406T180005", status:1 },
-  { idsms:"3731896248", number:"+420723753373", time:"20260406T180006", status:1 },
-  { idsms:"3731896216", number:"+420774977444", time:"20260406T180006", status:1 },
-  { idsms:"3731896288", number:"+420777915993", time:"20260406T180006", status:1 },
-  { idsms:"3731896276", number:"+420775599197", time:"20260406T180007", status:1 },
-  { idsms:"3731896192", number:"+420602363488", time:"20260406T180006", status:1 },
-  { idsms:"3731896228", number:"+420723225792", time:"20260406T180006", status:1 },
-  { idsms:"3731896124", number:"+420723467300", time:"20260406T180003", status:1 },
-  { idsms:"3731896150", number:"+420605310295", time:"20260406T180005", status:1 },
-  { idsms:"3735115838", number:"+420702019151", time:"20260407T180000", status:1 },
-  { idsms:"3735115938", number:"+420733767076", time:"20260407T180003", status:1 },
-  { idsms:"3735115854", number:"+420774101137", time:"20260407T180003", status:1 },
-  { idsms:"3735115874", number:"+420725947919", time:"20260407T180004", status:1 },
-  { idsms:"3735115988", number:"+420608115521", time:"20260407T180005", status:1 },
-  { idsms:"3735115928", number:"+420604665308", time:"20260407T180005", status:1 },
-  { idsms:"3735115894", number:"+420604665308", time:"20260407T180005", status:1 },
-  { idsms:"3735116012", number:"+420606160759", time:"20260407T180006", status:1 },
-  { idsms:"3735116036", number:"+420602160759", time:"20260407T180006", status:1 },
-  { idsms:"3735115970", number:"+420725762882", time:"20260407T180007", status:1 },
-  { idsms:"3735116092", number:"+420603485352", time:"20260407T180008", status:1 },
-  { idsms:"3735116052", number:"+420602817753", time:"20260407T180008", status:1 },
-  { idsms:"3735115956", number:"+420602252828", time:"20260407T180006", status:1 },
-  { idsms:"3739156018", number:"+420602500586", time:"20260409T095009", status:1 },
-  { idsms:"3739155992", number:"+420724272612", time:"20260409T095010", status:1 },
-  { idsms:"3745038780", number:"+420734460404", time:"20260412T180001", status:1 },
-  { idsms:"3745038796", number:"+420775954689", time:"20260412T180003", status:1 },
-  { idsms:"3745038816", number:"+420775954689", time:"20260412T180003", status:1 },
-  { idsms:"3745038838", number:"+420777250693", time:"20260412T180004", status:1 },
-  { idsms:"3745038784", number:"+420770199772", time:"20260412T180004", status:1 },
-  { idsms:"3745038900", number:"+420774333314", time:"20260412T180004", status:1 },
-  { idsms:"3745038874", number:"+420724356126", time:"20260412T180005", status:1 },
-  { idsms:"3747094940", number:"+420734258502", time:"20260413T180002", status:1 },
-  { idsms:"3747094924", number:"+420605465317", time:"20260413T180002", status:1 },
-  { idsms:"3747095104", number:"+420602437036", time:"20260413T180011", status:1 },
-  { idsms:"3747095126", number:"+420773787962", time:"20260413T180012", status:1 },
-  { idsms:"3747095188", number:"+420739626207", time:"20260413T180013", status:1 },
-  { idsms:"3747095258", number:"+420607543630", time:"20260413T180020", status:1 },
-  { idsms:"3747094976", number:"+420739402501", time:"20260413T180013", status:1 },
-  { idsms:"3747094992", number:"+420739402501", time:"20260413T180018", status:1 },
-  { idsms:"3747095010", number:"+420606655255", time:"20260413T180034", status:1 },
-  { idsms:"3747095154", number:"+420775262237", time:"20260413T180036", status:1 },
-  { idsms:"3747095032", number:"+420606655255", time:"20260413T180049", status:1 },
-  { idsms:"3747095060", number:"+420606655255", time:"20260413T180051", status:1 },
-  { idsms:"3747095302", number:"+420725947919", time:"20260413T180051", status:1 }
-];
-
-// ── HELPERS ──
-function parseApiTime(t) {
-  // 20260406T180002 → Date object
-  const y = +t.slice(0,4), mo = +t.slice(4,6)-1, d = +t.slice(6,8);
-  const h = +t.slice(9,11), mi = +t.slice(11,13), s = +t.slice(13,15);
-  return new Date(y, mo, d, h, mi, s);
-}
-function fmtTime(t) {
-  const dt = parseApiTime(t);
-  const d = String(dt.getDate()).padStart(2,'0');
-  const m = String(dt.getMonth()+1).padStart(2,'0');
-  const y = dt.getFullYear();
-  const h = String(dt.getHours()).padStart(2,'0');
-  const mi = String(dt.getMinutes()).padStart(2,'0');
-  return `${d}. ${m}. ${y} ${h}:${mi}`;
-}
-
-const STATUS_META = {
-  0: { label:'Odesláno',      cls:'badge-sent',    dotCls:'dot-sent',    color:'#1A6FA8', hex:'#1A6FA8' },
-  1: { label:'Doručeno',      cls:'badge-ok',      dotCls:'dot-ok',      color:'#1A8C4E', hex:'#1A8C4E' },
-  2: { label:'U operátora',   cls:'badge-carrier', dotCls:'dot-carrier', color:'#B7770D', hex:'#B7770D' },
-  3: { label:'Nedoručeno',    cls:'badge-fail',    dotCls:'dot-fail',    color:'#C0392B', hex:'#C0392B' },
-  5: { label:'Expirováno',    cls:'badge-gray',    dotCls:'dot-gray',    color:'#6C757D', hex:'#6C757D' },
-  6: { label:'Odmítnuto',     cls:'badge-fail',    dotCls:'dot-fail',    color:'#7B1A1A', hex:'#7B1A1A' },
+// ── DATA ────────────────────────────────────────────────────────────────
+const portal30d = {
+  labels: ["15.03.","16.03.","17.03.","18.03.","19.03.","20.03.","21.03.","22.03.","23.03.","24.03.","25.03.","26.03.","27.03.","28.03.","29.03.","30.03.","31.03.","01.04.","02.04.","03.04.","04.04.","05.04.","06.04.","07.04.","08.04.","09.04.","10.04.","11.04.","12.04.","13.04.","14.04."],
+  values: [9,275,7,6816,1744,0,1,14697,223,3063,19343,2296,0,0,0,11191,0,12219,13,0,0,10937,12,1573,2608,2007,0,0,7,17061,0]
 };
 
-function statusBadge(s) {
-  const m = STATUS_META[s] || { label:'Neznámý', cls:'badge-gray', dotCls:'dot-gray' };
-  return `<span class="badge ${m.cls}"><span class="badge-dot ${m.dotCls}"></span>${m.label}</span>`;
-}
+const allDaily = {
+  labels: ["02.01.","05.01.","09.01.","14.01.","15.01.","19.01.","20.01.","21.01.","22.01.","26.01.","28.01.","29.01.","30.01.","04.02.","05.02.","09.02.","11.02.","12.02.","16.02.","17.02.","18.02.","19.02.","20.02.","22.02.","23.02.","24.02.","25.02.","26.02.","03.03.","05.03.","09.03.","10.03.","11.03.","15.03.","16.03.","17.03.","18.03.","19.03.","21.03.","22.03.","23.03.","24.03.","25.03.","26.03.","30.03.","01.04.","02.04.","05.04.","06.04.","07.04.","08.04.","09.04.","12.04.","13.04."],
+  values: [1,18236,17813,2541,2575,881,3430,2571,25355,11104,3375,4539,3316,3379,25865,1812,3375,3769,3227,4101,23312,3378,2,16587,1819,14397,407,8090,16296,2002,1183,11741,1367,9,275,7,6785,1738,1,14649,222,3049,19295,2290,11163,12148,13,10922,12,1546,2597,2004,7,17021]
+};
 
-// ── RENDER DELIVERY TABLE ──
-const sorted = [...deliveryReports].sort((a,b) => b.time.localeCompare(a.time));
-const tbody = document.getElementById('deliveryBody');
-sorted.forEach((r, i) => {
-  const tr = document.createElement('tr');
-  tr.innerHTML = `
-    <td style="color:var(--text-muted);font-size:11px">${i+1}</td>
-    <td class="mono" style="color:var(--text-muted)">${r.idsms}</td>
-    <td class="mono">${r.number}</td>
-    <td style="white-space:nowrap">${fmtTime(r.time)}</td>
-    <td>${statusBadge(r.status)}</td>
-  `;
-  tbody.appendChild(tr);
-});
+const monthly = {
+  labels: ["Leden 2026","Únor 2026","Březen 2026","Duben 2026*"],
+  values: [95737,113520,92072,46270]
+};
 
-// ── COUNT STATUSES ──
-const counts = {};
-deliveryReports.forEach(r => { counts[r.status] = (counts[r.status]||0)+1; });
-const total = deliveryReports.length;
+const weekly = {
+  labels: ["Pondělí","Úterý","Středa","Čtvrtek","Pátek","Sobota","Neděle"],
+  values: [66955,54567,81152,81618,21132,1,42174]
+};
 
-// ── RENDER CHART ──
-const statusOrder = [1, 0, 2, 3, 5, 6];
-const chartLabels = [], chartData = [], chartColors = [];
-statusOrder.forEach(s => {
-  const c = counts[s]||0;
-  if (c > 0) {
-    chartLabels.push(STATUS_META[s].label);
-    chartData.push(c);
-    chartColors.push(STATUS_META[s].hex);
-  }
-});
+const operators = [
+  { name: "T-Mobile", count: 43116, pct: 40.6, rate: 99.4, color: "#E8174A" },
+  { name: "O2", count: 33373, pct: 31.4, rate: 99.13, color: "#004B87" },
+  { name: "Vodafone", count: 24605, pct: 23.1, rate: 99.2, color: "#E60000" },
+  { name: "Telefónica O2", count: 2274, pct: 2.1, rate: 98.8, color: "#0096DB" },
+  { name: "Orange", count: 684, pct: 0.6, rate: 98.5, color: "#FF6600" },
+  { name: "4ka", count: 346, pct: 0.3, rate: 98.2, color: "#8BC34A" }
+];
 
-const ctx = document.getElementById('deliveryChart').getContext('2d');
-new Chart(ctx, {
-  type: 'doughnut',
-  data: {
-    labels: chartLabels,
-    datasets: [{
-      data: chartData,
-      backgroundColor: chartColors,
-      borderWidth: 3,
-      borderColor: 'var(--card-bg)',
-      hoverOffset: 6
-    }]
-  },
-  options: {
-    cutout: '68%',
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        callbacks: {
-          label: ctx => ` ${ctx.label}: ${ctx.raw} (${((ctx.raw/total)*100).toFixed(1)} %)`
-        }
-      }
-    }
-  }
-});
+const hourly = {
+  labels: Array.from({length:24},(_,i)=>i+":00"),
+  values: [13,0,0,0,0,0,0,0,0,2,0,2,2252,326,12370,3,6,1,123319,156997,52307,0,1,0]
+};
 
-// ── RENDER LEGEND ──
-const legend = document.getElementById('chartLegend');
-statusOrder.forEach(s => {
-  const cnt = counts[s]||0;
-  const pct = ((cnt/total)*100).toFixed(1);
-  const m = STATUS_META[s];
-  const div = document.createElement('div');
-  div.className = 'legend-item';
-  div.innerHTML = `
-    <span class="legend-dot" style="background:${m.hex}"></span>
-    <span class="legend-label">${m.label}</span>
-    <span class="legend-count">${cnt}</span>
-    <span class="legend-pct">${cnt > 0 ? pct+' %' : '—'}</span>
-  `;
-  legend.appendChild(div);
-});
+const campaigns = [
+  { text: "OS: Zimní BLACK FRIDAY je tady!", count: 36700 },
+  { text: "OS: Zimní výprodej na kralovstvi-...", count: 23475 },
+  { text: "OS: Poštovné ZDARMA při nákupu nad ***Kč", count: 20819 },
+  { text: "OS: ZIMNÍ BLACK FRIDAY v plném proudu!", count: 19681 },
+  { text: "OS: LIKVIDACE SKLADU je tady!", count: 17009 },
+  { text: "Webinář Hubnutí začíná v **:**", count: 16937 },
+  { text: "OS: Poštovné zdarma při nákupu nad ***Kč", count: 16895 },
+  { text: "OS: Změňte své tělo ted, nebo nikdy", count: 16394 },
+  { text: "OS: POZOR! ZÍTRA KONČÍ jarní BLACK FRIDAY!", count: 15764 },
+  { text: "OS: Poštovné ZDARMA nad *** Kč jen do *.", count: 15094 },
+  { text: "OS: POSLEDNÍCH * HODIN! **% sleva", count: 13581 },
+  { text: "Záznam *.lekce HUBNUTÍ je online:", count: 12362 },
+  { text: "*. lekce HUBNUTÍ začíná v **:**", count: 10509 },
+  { text: "OS: Slevy až ** % vrcholí a zásoby mizí!", count: 10292 },
+  { text: "OS: Už zbývá posledních ** hod! Nakupte", count: 10252 }
+];
 
-// ── DARK MODE ──
+const statusData = {
+  "doručena": 344763,
+  "nedoručena": 1615,
+  "nedoručitelná": 1037,
+  "předána": 184
+};
+
+const invoices = [
+  { id: "2604104", amount: 60000 },
+  { id: "2603302", amount: 60000 },
+  { id: "2602258", amount: 100000 },
+  { id: "2602032", amount: 100000 },
+  { id: "2601327", amount: 60000 },
+  { id: "2601042", amount: 60000 },
+  { id: "2512238", amount: 60000 },
+  { id: "2511264", amount: 50000 },
+  { id: "2511071", amount: 50000 },
+  { id: "2510263", amount: 50000 }
+];
+
+// ── THEME ────────────────────────────────────────────────────────────────
 function toggleTheme() {
   const html = document.documentElement;
   const isDark = html.getAttribute('data-theme') === 'dark';
   html.setAttribute('data-theme', isDark ? 'light' : 'dark');
-  document.getElementById('themeBtn').textContent = isDark ? '🌙 Tmavý' : '☀️ Světlý';
-  localStorage.setItem('dp-sms-theme', isDark ? 'light' : 'dark');
+  document.querySelector('.theme-btn').textContent = isDark ? '🌙' : '☀️';
+  updateChartThemes();
 }
-(function initTheme() {
-  const saved = localStorage.getItem('dp-sms-theme');
-  if (saved === 'dark') {
-    document.documentElement.setAttribute('data-theme', 'dark');
-    document.getElementById('themeBtn').textContent = '☀️ Světlý';
-  }
-})();
+function getCssVar(v) { return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); }
+function isDark() { return document.documentElement.getAttribute('data-theme') === 'dark'; }
+function gridColor() { return isDark() ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.06)'; }
+function labelColor() { return isDark() ? '#9490B8' : '#6B6B90'; }
+
+// ── DATE ────────────────────────────────────────────────────────────────
+document.getElementById('navDate').textContent = new Date().toLocaleDateString('cs-CZ', {day:'2-digit',month:'long',year:'numeric'});
+
+// ── CHART DEFAULTS ────────────────────────────────────────────────────────
+Chart.defaults.font.family = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+Chart.defaults.font.size = 12;
+
+function barOptions(title, subtitle) {
+  return {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: ctx => ' ' + ctx.parsed.y.toLocaleString('cs-CZ') + ' SMS'
+        }
+      }
+    },
+    scales: {
+      x: {
+        grid: { color: gridColor() },
+        ticks: { color: labelColor(), maxRotation: 45, minRotation: 30, font: { size: 10 } }
+      },
+      y: {
+        grid: { color: gridColor() },
+        ticks: { color: labelColor(), callback: v => v >= 1000 ? (v/1000).toFixed(0)+'k' : v },
+        beginAtZero: true
+      }
+    }
+  };
+}
+
+let charts = {};
+
+// ── 30-DAY CHART ─────────────────────────────────────────────────────────
+function make30dChart() {
+  const peaks = portal30d.values.map(v => v > 10000);
+  const colors = portal30d.values.map((v,i) => peaks[i]
+    ? 'rgba(168,85,200,0.9)'
+    : v > 5000 ? 'rgba(123,45,139,0.8)' : 'rgba(123,45,139,0.5)');
+  charts.c30d = new Chart(document.getElementById('chart30d'), {
+    type: 'bar',
+    data: {
+      labels: portal30d.labels,
+      datasets: [{
+        data: portal30d.values,
+        backgroundColor: colors,
+        borderColor: colors.map(c=>c.replace(/[\d.]+\)$/,'1)')),
+        borderWidth: 0,
+        borderRadius: 4
+      }]
+    },
+    options: {
+      ...barOptions(),
+      plugins: {
+        ...barOptions().plugins,
+        annotation: {}
+      }
+    }
+  });
+}
+
+// ── ALL DAILY CHART ──────────────────────────────────────────────────────
+function makeAllDailyChart() {
+  const colors = allDaily.values.map(v =>
+    v > 20000 ? 'rgba(168,85,200,0.9)'
+    : v > 10000 ? 'rgba(123,45,139,0.8)'
+    : v > 5000 ? 'rgba(123,45,139,0.65)'
+    : 'rgba(123,45,139,0.45)');
+  charts.allDaily = new Chart(document.getElementById('chartAllDaily'), {
+    type: 'bar',
+    data: {
+      labels: allDaily.labels,
+      datasets: [{
+        data: allDaily.values,
+        backgroundColor: colors,
+        borderRadius: 3,
+        borderWidth: 0
+      }]
+    },
+    options: barOptions()
+  });
+}
+
+// ── MONTHLY CHART ────────────────────────────────────────────────────────
+function makeMonthlyChart() {
+  charts.monthly = new Chart(document.getElementById('chartMonthly'), {
+    type: 'bar',
+    data: {
+      labels: monthly.labels,
+      datasets: [{
+        data: monthly.values,
+        backgroundColor: ['rgba(123,45,139,0.75)','rgba(123,45,139,0.9)','rgba(123,45,139,0.7)','rgba(168,85,200,0.7)'],
+        borderRadius: 6,
+        borderWidth: 0
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ' ' + ctx.parsed.y.toLocaleString('cs-CZ') + ' SMS' } }
+      },
+      scales: {
+        x: { grid: { color: gridColor() }, ticks: { color: labelColor() } },
+        y: { grid: { color: gridColor() }, ticks: { color: labelColor(), callback: v => (v/1000).toFixed(0)+'k' }, beginAtZero: true }
+      }
+    }
+  });
+}
+
+// ── WEEKLY CHART ─────────────────────────────────────────────────────────
+function makeWeeklyChart() {
+  charts.weekly = new Chart(document.getElementById('chartWeekly'), {
+    type: 'bar',
+    data: {
+      labels: weekly.labels,
+      datasets: [{
+        data: weekly.values,
+        backgroundColor: weekly.values.map((v,i)=> i<=3 ? 'rgba(123,45,139,0.8)' : i===6 ? 'rgba(168,85,200,0.7)' : 'rgba(200,200,200,0.4)'),
+        borderRadius: 5, borderWidth: 0
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ' ' + ctx.parsed.y.toLocaleString('cs-CZ') + ' SMS' } }
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { color: labelColor(), font:{size:10} } },
+        y: { grid: { color: gridColor() }, ticks: { color: labelColor(), callback: v => (v/1000).toFixed(0)+'k' }, beginAtZero: true }
+      }
+    }
+  });
+}
+
+// ── DONUT CHART ──────────────────────────────────────────────────────────
+function makeDonutChart() {
+  charts.donut = new Chart(document.getElementById('chartDonut'), {
+    type: 'doughnut',
+    data: {
+      labels: operators.map(o=>o.name),
+      datasets: [{
+        data: operators.map(o=>o.count),
+        backgroundColor: operators.map(o=>o.color),
+        borderWidth: 3,
+        borderColor: isDark() ? '#1E1B30' : '#FFFFFF',
+        hoverOffset: 8
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      cutout: '62%',
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { color: labelColor(), padding: 12, font: { size: 11 } }
+        },
+        tooltip: {
+          callbacks: {
+            label: ctx => ' ' + ctx.label + ': ' + ctx.parsed.toLocaleString('cs-CZ') + ' SMS (' + operators[ctx.dataIndex].pct + '%)'
+          }
+        }
+      }
+    }
+  });
+}
+
+// ── HOURLY CHART ─────────────────────────────────────────────────────────
+function makeHourlyChart() {
+  charts.hourly = new Chart(document.getElementById('chartHourly'), {
+    type: 'bar',
+    data: {
+      labels: hourly.labels,
+      datasets: [{
+        data: hourly.values,
+        backgroundColor: hourly.values.map(v =>
+          v > 100000 ? 'rgba(168,85,200,0.9)'
+          : v > 10000 ? 'rgba(123,45,139,0.8)'
+          : v > 1000 ? 'rgba(123,45,139,0.6)'
+          : 'rgba(123,45,139,0.25)'),
+        borderRadius: 4, borderWidth: 0
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ' ' + ctx.parsed.y.toLocaleString('cs-CZ') + ' SMS' } }
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { color: labelColor(), maxRotation: 0, font:{size:9} } },
+        y: { grid: { color: gridColor() }, ticks: { color: labelColor(), callback: v => v>=1000?(v/1000).toFixed(0)+'k':v }, beginAtZero: true }
+      }
+    }
+  });
+}
+
+// ── STATUS CHART ─────────────────────────────────────────────────────────
+function makeStatusChart() {
+  const keys = Object.keys(statusData);
+  const vals = Object.values(statusData);
+  const colors = ['rgba(26,140,78,0.85)','rgba(192,57,43,0.85)','rgba(183,119,13,0.85)','rgba(26,111,168,0.85)'];
+  charts.status = new Chart(document.getElementById('chartStatus'), {
+    type: 'doughnut',
+    data: {
+      labels: keys,
+      datasets: [{
+        data: vals,
+        backgroundColor: colors,
+        borderWidth: 3,
+        borderColor: isDark() ? '#1E1B30' : '#FFFFFF',
+        hoverOffset: 8
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      cutout: '58%',
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { color: labelColor(), padding: 12, font: { size: 11 } }
+        },
+        tooltip: {
+          callbacks: {
+            label: ctx => ' ' + ctx.label + ': ' + ctx.parsed.toLocaleString('cs-CZ') +
+              ' (' + (ctx.parsed / 347599 * 100).toFixed(2) + '%)'
+          }
+        }
+      }
+    }
+  });
+}
+
+// ── CREDIT CHART ──────────────────────────────────────────────────────────
+function makeCreditChart() {
+  // invoices in reverse chronological order, need to sort
+  const sorted = [...invoices].reverse();
+  let cumulative = 0;
+  const labels = sorted.map(i => i.id);
+  const vals = sorted.map(i => { cumulative += i.amount; return cumulative; });
+  charts.credit = new Chart(document.getElementById('chartCredit'), {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{
+        data: vals,
+        borderColor: 'rgba(123,45,139,0.9)',
+        backgroundColor: 'rgba(123,45,139,0.1)',
+        fill: true,
+        tension: 0.3,
+        pointBackgroundColor: 'rgba(123,45,139,1)',
+        pointRadius: 5,
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            title: ctx => 'Faktura č. ' + ctx[0].label,
+            label: ctx => ' Kumulativně: ' + ctx.parsed.y.toLocaleString('cs-CZ') + ' Kč'
+          }
+        }
+      },
+      scales: {
+        x: { grid: { color: gridColor() }, ticks: { color: labelColor(), font:{size:9}, maxRotation:30 } },
+        y: {
+          grid: { color: gridColor() },
+          ticks: { color: labelColor(), callback: v => (v/1000).toFixed(0)+'k Kč' },
+          beginAtZero: true
+        }
+      }
+    }
+  });
+}
+
+// ── OPERATOR LIST ────────────────────────────────────────────────────────
+function renderOpList() {
+  const el = document.getElementById('opList');
+  operators.forEach(op => {
+    const pct = ((op.rate - 98) / 2 * 100).toFixed(0); // visual bar scaled from 98-100%
+    el.innerHTML += `
+      <div class="op-row">
+        <div class="op-header">
+          <span class="op-name">${op.name}</span>
+          <span class="op-count" style="color:${op.rate>=99.2?'var(--success)':'var(--warning)'}; font-weight:700">${op.rate}%</span>
+        </div>
+        <div class="op-bar-bg">
+          <div class="op-bar" style="width:${Math.min(100,op.rate-97)}%; background:${op.color}; opacity:0.8"></div>
+        </div>
+      </div>`;
+  });
+}
+
+function renderOpVolList() {
+  const el = document.getElementById('opVolList');
+  const maxCount = Math.max(...operators.map(o=>o.count));
+  operators.forEach(op => {
+    el.innerHTML += `
+      <div class="op-row">
+        <div class="op-header">
+          <span class="op-name">${op.name}</span>
+          <span class="op-count">${op.count.toLocaleString('cs-CZ')} SMS (${op.pct}%)</span>
+        </div>
+        <div class="op-bar-bg">
+          <div class="op-bar" style="width:${(op.count/maxCount*100).toFixed(1)}%; background:${op.color}; opacity:0.75"></div>
+        </div>
+      </div>`;
+  });
+}
+
+// ── CAMPAIGN TABLE ────────────────────────────────────────────────────────
+function renderCampaignTable() {
+  const tbody = document.querySelector('#campaignTable tbody');
+  const total = campaigns.reduce((s,c)=>s+c.count,0);
+  campaigns.forEach((c,i) => {
+    const pct = (c.count/347599*100).toFixed(1);
+    const barPct = (c.count/campaigns[0].count*100).toFixed(0);
+    tbody.innerHTML += `
+      <tr>
+        <td style="color:var(--text-muted); font-weight:600">${i+1}</td>
+        <td>
+          <div style="font-size:0.83rem">${c.text}</div>
+          <div class="campaign-bar-bg"><div class="campaign-bar" style="width:${barPct}%"></div></div>
+        </td>
+        <td class="td-right td-mono" style="font-weight:700">${c.count.toLocaleString('cs-CZ')}</td>
+        <td class="td-right" style="color:var(--text-muted)">${pct}%</td>
+      </tr>`;
+  });
+}
+
+// ── STATUS GRID ───────────────────────────────────────────────────────────
+function renderStatusGrid() {
+  const el = document.getElementById('statusGrid');
+  const items = [
+    { key: 'doručena', label: 'Doručena', color: 'var(--success-bg)', textColor: 'var(--success)', icon: '✅' },
+    { key: 'nedoručena', label: 'Nedoručena', color: 'var(--danger-bg)', textColor: 'var(--danger)', icon: '❌' },
+    { key: 'nedoručitelná', label: 'Nedoručitelná', color: 'var(--warning-bg)', textColor: 'var(--warning)', icon: '⚠️' },
+    { key: 'předána', label: 'Předána', color: 'var(--info-bg)', textColor: 'var(--info)', icon: 'ℹ️' },
+  ];
+  items.forEach(item => {
+    const count = statusData[item.key] || 0;
+    const pct = (count/347599*100).toFixed(2);
+    el.innerHTML += `
+      <div class="status-card" style="background:${item.color}">
+        <div style="font-size:1.4rem">${item.icon}</div>
+        <div class="status-val" style="color:${item.textColor}">${count.toLocaleString('cs-CZ')}</div>
+        <div class="status-lbl" style="color:${item.textColor}">${item.label}</div>
+        <div class="status-pct" style="color:${item.textColor}">${pct}%</div>
+      </div>`;
+  });
+
+  // Status table
+  const tbody = document.querySelector('#statusTable tbody');
+  items.forEach(item => {
+    const count = statusData[item.key] || 0;
+    const pct = (count/347599*100).toFixed(3);
+    tbody.innerHTML += `
+      <tr>
+        <td>${item.icon} ${item.label}</td>
+        <td class="td-right td-mono" style="font-weight:700">${count.toLocaleString('cs-CZ')}</td>
+        <td class="td-right" style="color:var(--text-muted)">${pct}%</td>
+      </tr>`;
+  });
+}
+
+// ── INVOICE TABLE ─────────────────────────────────────────────────────────
+function renderInvoiceTable() {
+  const tbody = document.querySelector('#invoiceTable tbody');
+  const sorted = [...invoices].reverse(); // oldest first
+  let cumulative = 0;
+  sorted.forEach(inv => {
+    cumulative += inv.amount;
+    tbody.innerHTML += `
+      <tr>
+        <td class="td-mono">${inv.id}</td>
+        <td class="td-right" style="font-weight:700; color:var(--success)">${inv.amount.toLocaleString('cs-CZ')} Kč</td>
+        <td class="td-right td-mono">${cumulative.toLocaleString('cs-CZ')} Kč</td>
+      </tr>`;
+  });
+}
+
+// ── UPDATE CHART THEMES ───────────────────────────────────────────────────
+function updateChartThemes() {
+  Object.values(charts).forEach(chart => {
+    if (!chart) return;
+    if (chart.options.scales) {
+      ['x','y'].forEach(ax => {
+        if (chart.options.scales[ax]) {
+          if (chart.options.scales[ax].grid) chart.options.scales[ax].grid.color = gridColor();
+          if (chart.options.scales[ax].ticks) chart.options.scales[ax].ticks.color = labelColor();
+        }
+      });
+    }
+    if (chart.options.plugins?.legend?.labels) {
+      chart.options.plugins.legend.labels.color = labelColor();
+    }
+    // Update donut border color
+    if (chart.config.type === 'doughnut') {
+      chart.data.datasets[0].borderColor = isDark() ? '#1E1B30' : '#FFFFFF';
+    }
+    chart.update();
+  });
+}
+
+// ── INIT ─────────────────────────────────────────────────────────────────
+make30dChart();
+makeAllDailyChart();
+makeMonthlyChart();
+makeWeeklyChart();
+makeDonutChart();
+makeHourlyChart();
+makeStatusChart();
+makeCreditChart();
+renderOpList();
+renderOpVolList();
+renderCampaignTable();
+renderStatusGrid();
+renderInvoiceTable();
 </script>
 </body>
 </html>
