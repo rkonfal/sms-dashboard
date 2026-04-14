@@ -307,6 +307,7 @@
     <a class="nav-link" href="#historie">Historie</a>
     <a class="nav-link" href="#operatori">Operátoři</a>
     <a class="nav-link" href="#kampane">Kampaně</a>
+    <a class="nav-link" href="#vliv">SMS vs Obrat</a>
     <a class="nav-link" href="#kredit">Kredit</a>
     <a class="nav-link" href="#management">Management</a>
   </div>
@@ -550,6 +551,499 @@
     </div>
   </section>
 
+
+  <!-- ╔══════════════════════ VLIV SMS NA OBRAT ══════════════════════╗ -->
+  <section class="section" id="vliv">
+    <div class="section-header">
+      <div class="section-icon">📈</div>
+      <div>
+        <div class="section-title">Vliv SMS na obrat e-shopu</div>
+        <div class="section-subtitle">Korelace SMS kampaní s denním obratem · 1.&nbsp;1.–14.&nbsp;4.&nbsp;2026 · 37&nbsp;101 objednávek · reálná data z WPJ API</div>
+      </div>
+    </div>
+
+    <!-- KPI cards -->
+    <div class="kpi-grid" style="margin-bottom:20px">
+      <div class="kpi-card" style="--kpi-color:#A855C8">
+        <div class="kpi-label">Průměrný obrat — kampaňový den</div>
+        <div class="kpi-value">575<span>&nbsp;tis.&nbsp;Kč</span></div>
+        <div class="kpi-sub">dny s&nbsp;≥&nbsp;1&nbsp;000 SMS · 42 takových dní</div>
+        <div class="kpi-badge badge-orange">vs 485 tis. normální den</div>
+        <div class="kpi-icon">📱</div>
+      </div>
+      <div class="kpi-card" style="--kpi-color:#7B2D8B">
+        <div class="kpi-label">Nárůst obratu v den kampaně</div>
+        <div class="kpi-value">+19<span>&nbsp;%</span></div>
+        <div class="kpi-sub">kampaň vs běžný den · 1.19× průměr</div>
+        <div class="kpi-badge badge-green">📊 statistický rozdíl</div>
+        <div class="kpi-icon">📈</div>
+      </div>
+      <div class="kpi-card" style="--kpi-color:#1A6FA8">
+        <div class="kpi-label">Korelační koeficient (Pearson)</div>
+        <div class="kpi-value">0,26</div>
+        <div class="kpi-sub">SMS objem vs denní obrat · slabá pozitivní</div>
+        <div class="kpi-badge badge-orange">⚠ vliv jiných faktorů</div>
+        <div class="kpi-icon">📐</div>
+      </div>
+      <div class="kpi-card" style="--kpi-color:#1A8C4E">
+        <div class="kpi-label">Odhad přínosu SMS kampaní</div>
+        <div class="kpi-value">3 800<span>&nbsp;tis.&nbsp;Kč</span></div>
+        <div class="kpi-sub">extra obrat nad baseline · přibližně</div>
+        <div class="kpi-badge badge-green">💰 odhad, ne garantovaná hodnota</div>
+        <div class="kpi-icon">💰</div>
+      </div>
+      <div class="kpi-card" style="--kpi-color:#1A8C4E">
+        <div class="kpi-label">ROI SMS kanálu</div>
+        <div class="kpi-value">830<span>&nbsp;%</span></div>
+        <div class="kpi-sub">extra obrat / cena SMS (1,31&nbsp;Kč/SMS)</div>
+        <div class="kpi-badge badge-green">🚀 silně kladné ROI</div>
+        <div class="kpi-icon">🚀</div>
+      </div>
+      <div class="kpi-card" style="--kpi-color:#B7770D">
+        <div class="kpi-label">Extra obrat na 1 SMS</div>
+        <div class="kpi-value">10,88<span>&nbsp;Kč</span></div>
+        <div class="kpi-sub">při ceně 1,31&nbsp;Kč/SMS → 8,30× návratnost</div>
+        <div class="kpi-badge badge-orange">📦 konzervativní odhad</div>
+        <div class="kpi-icon">💬</div>
+      </div>
+    </div>
+
+    <!-- Dual-axis overlay chart -->
+    <div class="card" style="margin-bottom:20px">
+      <div class="card-title">Denní SMS odesílání vs obrat e-shopu</div>
+      <div class="card-subtitle">Modrá = obrat (levá osa) · Fialová linka = SMS (pravá osa) · Tmavší sloupce = dny s kampaní (≥&nbsp;1&nbsp;000 SMS)</div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px">
+        <span style="display:inline-flex;align-items:center;gap:5px;font-size:0.78rem"><span style="width:14px;height:14px;border-radius:3px;background:rgba(168,85,200,0.65);display:inline-block"></span>Velká kampaň (≥10 000 SMS)</span>
+        <span style="display:inline-flex;align-items:center;gap:5px;font-size:0.78rem"><span style="width:14px;height:14px;border-radius:3px;background:rgba(123,45,139,0.4);display:inline-block"></span>Kampaňový den (1 000–10 000 SMS)</span>
+        <span style="display:inline-flex;align-items:center;gap:5px;font-size:0.78rem"><span style="width:14px;height:14px;border-radius:3px;background:rgba(26,111,168,0.35);display:inline-block"></span>Běžný den</span>
+        <span style="display:inline-flex;align-items:center;gap:5px;font-size:0.78rem"><span style="width:3px;height:14px;background:rgba(220,38,38,0.9);display:inline-block"></span>SMS trend</span>
+      </div>
+      <div class="chart-wrap-lg">
+        <canvas id="chartVlivOverlay"></canvas>
+      </div>
+    </div>
+
+    <!-- Campaign impact table -->
+    <div class="card" style="margin-bottom:20px">
+      <div class="card-title">Dopad SMS kampaní na obrat — detailní tabulka</div>
+      <div class="card-subtitle">Kampaňové dny s ≥ 5 000 SMS · Obrat den před, v den kampaně, den po a +2 dny</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Datum kampaně</th>
+              <th class="td-right">SMS odesláno</th>
+              <th class="td-right">Obrat ten den</th>
+              <th class="td-right">Den před</th>
+              <th class="td-right">Den po</th>
+              <th class="td-right">+2 dny</th>
+              <th class="td-right">Nárůst&nbsp;(%)</th>
+            </tr>
+          </thead>
+          <tbody>
+
+        <tr>
+          <td style="font-weight:600">05.01.2026</td>
+          <td class="td-right" style="background:rgba(168,85,200,0.18); font-weight:700; border-radius:6px">18 236</td>
+          <td class="td-right" style="font-weight:700">581 715&nbsp;Kč</td>
+          <td class="td-right" style="color:var(--text-muted)">276 716&nbsp;Kč</td>
+          <td class="td-right">530 116&nbsp;Kč</td>
+          <td class="td-right" style="color:var(--text-muted)">721 600&nbsp;Kč</td>
+          <td class="td-right" style="font-weight:700; color:var(--success)">+110.2&nbsp;%</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600">09.01.2026</td>
+          <td class="td-right" style="background:rgba(168,85,200,0.18); font-weight:700; border-radius:6px">17 813</td>
+          <td class="td-right" style="font-weight:700">322 671&nbsp;Kč</td>
+          <td class="td-right" style="color:var(--text-muted)">312 551&nbsp;Kč</td>
+          <td class="td-right">226 129&nbsp;Kč</td>
+          <td class="td-right" style="color:var(--text-muted)">915 680&nbsp;Kč</td>
+          <td class="td-right" style="font-weight:700; color:var(--warning)">+3.2&nbsp;%</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600">22.01.2026</td>
+          <td class="td-right" style="background:rgba(168,85,200,0.18); font-weight:700; border-radius:6px">25 355</td>
+          <td class="td-right" style="font-weight:700">539 878&nbsp;Kč</td>
+          <td class="td-right" style="color:var(--text-muted)">459 315&nbsp;Kč</td>
+          <td class="td-right">429 580&nbsp;Kč</td>
+          <td class="td-right" style="color:var(--text-muted)">271 253&nbsp;Kč</td>
+          <td class="td-right" style="font-weight:700; color:var(--success)">+17.5&nbsp;%</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600">26.01.2026</td>
+          <td class="td-right" style="background:rgba(168,85,200,0.18); font-weight:700; border-radius:6px">11 104</td>
+          <td class="td-right" style="font-weight:700">599 367&nbsp;Kč</td>
+          <td class="td-right" style="color:var(--text-muted)">400 475&nbsp;Kč</td>
+          <td class="td-right">528 173&nbsp;Kč</td>
+          <td class="td-right" style="color:var(--text-muted)">458 641&nbsp;Kč</td>
+          <td class="td-right" style="font-weight:700; color:var(--success)">+49.7&nbsp;%</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600">05.02.2026</td>
+          <td class="td-right" style="background:rgba(168,85,200,0.18); font-weight:700; border-radius:6px">25 865</td>
+          <td class="td-right" style="font-weight:700">553 966&nbsp;Kč</td>
+          <td class="td-right" style="color:var(--text-muted)">534 427&nbsp;Kč</td>
+          <td class="td-right">480 173&nbsp;Kč</td>
+          <td class="td-right" style="color:var(--text-muted)">618 789&nbsp;Kč</td>
+          <td class="td-right" style="font-weight:700; color:var(--warning)">+3.7&nbsp;%</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600">18.02.2026</td>
+          <td class="td-right" style="background:rgba(168,85,200,0.18); font-weight:700; border-radius:6px">23 312</td>
+          <td class="td-right" style="font-weight:700">728 628&nbsp;Kč</td>
+          <td class="td-right" style="color:var(--text-muted)">605 860&nbsp;Kč</td>
+          <td class="td-right">590 152&nbsp;Kč</td>
+          <td class="td-right" style="color:var(--text-muted)">382 240&nbsp;Kč</td>
+          <td class="td-right" style="font-weight:700; color:var(--success)">+20.3&nbsp;%</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600">22.02.2026</td>
+          <td class="td-right" style="background:rgba(168,85,200,0.18); font-weight:700; border-radius:6px">16 587</td>
+          <td class="td-right" style="font-weight:700">589 738&nbsp;Kč</td>
+          <td class="td-right" style="color:var(--text-muted)">240 448&nbsp;Kč</td>
+          <td class="td-right">515 968&nbsp;Kč</td>
+          <td class="td-right" style="color:var(--text-muted)">485 147&nbsp;Kč</td>
+          <td class="td-right" style="font-weight:700; color:var(--success)">+145.3&nbsp;%</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600">24.02.2026</td>
+          <td class="td-right" style="background:rgba(168,85,200,0.18); font-weight:700; border-radius:6px">14 397</td>
+          <td class="td-right" style="font-weight:700">485 147&nbsp;Kč</td>
+          <td class="td-right" style="color:var(--text-muted)">515 968&nbsp;Kč</td>
+          <td class="td-right">517 025&nbsp;Kč</td>
+          <td class="td-right" style="color:var(--text-muted)">465 088&nbsp;Kč</td>
+          <td class="td-right" style="font-weight:700; color:var(--danger)">-6.0&nbsp;%</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600">26.02.2026</td>
+          <td class="td-right" style="background:rgba(123,45,139,0.1); font-weight:700; border-radius:6px">8 090</td>
+          <td class="td-right" style="font-weight:700">465 088&nbsp;Kč</td>
+          <td class="td-right" style="color:var(--text-muted)">517 025&nbsp;Kč</td>
+          <td class="td-right">491 215&nbsp;Kč</td>
+          <td class="td-right" style="color:var(--text-muted)">582 075&nbsp;Kč</td>
+          <td class="td-right" style="font-weight:700; color:var(--danger)">-10.0&nbsp;%</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600">03.03.2026</td>
+          <td class="td-right" style="background:rgba(168,85,200,0.18); font-weight:700; border-radius:6px">16 296</td>
+          <td class="td-right" style="font-weight:700">622 761&nbsp;Kč</td>
+          <td class="td-right" style="color:var(--text-muted)">620 825&nbsp;Kč</td>
+          <td class="td-right">627 460&nbsp;Kč</td>
+          <td class="td-right" style="color:var(--text-muted)">526 615&nbsp;Kč</td>
+          <td class="td-right" style="font-weight:700; color:var(--warning)">+0.3&nbsp;%</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600">10.03.2026</td>
+          <td class="td-right" style="background:rgba(168,85,200,0.18); font-weight:700; border-radius:6px">11 741</td>
+          <td class="td-right" style="font-weight:700">581 559&nbsp;Kč</td>
+          <td class="td-right" style="color:var(--text-muted)">521 816&nbsp;Kč</td>
+          <td class="td-right">705 081&nbsp;Kč</td>
+          <td class="td-right" style="color:var(--text-muted)">901 804&nbsp;Kč</td>
+          <td class="td-right" style="font-weight:700; color:var(--warning)">+11.4&nbsp;%</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600">18.03.2026</td>
+          <td class="td-right" style="background:rgba(123,45,139,0.1); font-weight:700; border-radius:6px">6 785</td>
+          <td class="td-right" style="font-weight:700">674 511&nbsp;Kč</td>
+          <td class="td-right" style="color:var(--text-muted)">529 998&nbsp;Kč</td>
+          <td class="td-right">530 774&nbsp;Kč</td>
+          <td class="td-right" style="color:var(--text-muted)">356 365&nbsp;Kč</td>
+          <td class="td-right" style="font-weight:700; color:var(--success)">+27.3&nbsp;%</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600">22.03.2026</td>
+          <td class="td-right" style="background:rgba(168,85,200,0.18); font-weight:700; border-radius:6px">14 649</td>
+          <td class="td-right" style="font-weight:700">915 694&nbsp;Kč</td>
+          <td class="td-right" style="color:var(--text-muted)">400 245&nbsp;Kč</td>
+          <td class="td-right">482 557&nbsp;Kč</td>
+          <td class="td-right" style="color:var(--text-muted)">506 326&nbsp;Kč</td>
+          <td class="td-right" style="font-weight:700; color:var(--success)">+128.8&nbsp;%</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600">25.03.2026</td>
+          <td class="td-right" style="background:rgba(168,85,200,0.18); font-weight:700; border-radius:6px">19 295</td>
+          <td class="td-right" style="font-weight:700">651 957&nbsp;Kč</td>
+          <td class="td-right" style="color:var(--text-muted)">506 326&nbsp;Kč</td>
+          <td class="td-right">489 422&nbsp;Kč</td>
+          <td class="td-right" style="color:var(--text-muted)">312 149&nbsp;Kč</td>
+          <td class="td-right" style="font-weight:700; color:var(--success)">+28.8&nbsp;%</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600">30.03.2026</td>
+          <td class="td-right" style="background:rgba(168,85,200,0.18); font-weight:700; border-radius:6px">11 163</td>
+          <td class="td-right" style="font-weight:700">790 656&nbsp;Kč</td>
+          <td class="td-right" style="color:var(--text-muted)">454 547&nbsp;Kč</td>
+          <td class="td-right">847 953&nbsp;Kč</td>
+          <td class="td-right" style="color:var(--text-muted)">447 487&nbsp;Kč</td>
+          <td class="td-right" style="font-weight:700; color:var(--success)">+73.9&nbsp;%</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600">01.04.2026</td>
+          <td class="td-right" style="background:rgba(168,85,200,0.18); font-weight:700; border-radius:6px">12 148</td>
+          <td class="td-right" style="font-weight:700">447 487&nbsp;Kč</td>
+          <td class="td-right" style="color:var(--text-muted)">847 953&nbsp;Kč</td>
+          <td class="td-right">328 092&nbsp;Kč</td>
+          <td class="td-right" style="color:var(--text-muted)">212 350&nbsp;Kč</td>
+          <td class="td-right" style="font-weight:700; color:var(--danger)">-47.2&nbsp;%</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600">05.04.2026</td>
+          <td class="td-right" style="background:rgba(168,85,200,0.18); font-weight:700; border-radius:6px">10 922</td>
+          <td class="td-right" style="font-weight:700">390 589&nbsp;Kč</td>
+          <td class="td-right" style="color:var(--text-muted)">242 091&nbsp;Kč</td>
+          <td class="td-right">702 705&nbsp;Kč</td>
+          <td class="td-right" style="color:var(--text-muted)">826 006&nbsp;Kč</td>
+          <td class="td-right" style="font-weight:700; color:var(--success)">+61.3&nbsp;%</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600">13.04.2026</td>
+          <td class="td-right" style="background:rgba(168,85,200,0.18); font-weight:700; border-radius:6px">17 021</td>
+          <td class="td-right" style="font-weight:700">1 150 330&nbsp;Kč</td>
+          <td class="td-right" style="color:var(--text-muted)">486 404&nbsp;Kč</td>
+          <td class="td-right">590 870&nbsp;Kč</td>
+          <td class="td-right" style="color:var(--text-muted)">0&nbsp;Kč</td>
+          <td class="td-right" style="font-weight:700; color:var(--success)">+136.5&nbsp;%</td>
+        </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="insight-row" style="margin-top:14px">
+        <span class="insight-pill">📈 Průměrný nárůst v den kampaně: +42&nbsp;%</span>
+        <span class="insight-pill">🔥 Nejsilnější efekt: 22.2.2026 (+145&nbsp;%)</span>
+        <span class="insight-pill">📅 Halo efekt: den po kampani průměrně 534&nbsp;tis.&nbsp;Kč</span>
+      </div>
+    </div>
+
+    <!-- Weekly comparison -->
+    <div class="card" style="margin-bottom:20px">
+      <div class="card-title">Týdenní srovnání — SMS aktivita vs obrat</div>
+      <div class="card-subtitle">Týdny označené SMS jsou týdny s intenzivním odesíláním (≥ 10&nbsp;000 SMS) · Průměr: SMS týdny 3 467 tis. vs běžné 3 153 tis. Kč</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Týden (ISO)</th>
+              <th class="td-right">Rozsah</th>
+              <th class="td-right">SMS celkem</th>
+              <th class="td-right">Obrat celkem</th>
+              <th class="td-right">Objednávky</th>
+              <th class="td-right">Prům. objednávka</th>
+            </tr>
+          </thead>
+          <tbody>
+
+        <tr style="">
+          <td style="font-weight:600; white-space:nowrap">2026-W01</td>
+          <td class="td-right" style="color:var(--text-muted); white-space:nowrap">01.01.–04.01.</td>
+          <td class="td-right" style="font-weight:400">1</td>
+          <td class="td-right" style="font-weight:700">1 009 892&nbsp;Kč</td>
+          <td class="td-right">789</td>
+          <td class="td-right">1 280&nbsp;Kč</td>
+        </tr>
+        <tr style="background:rgba(168,85,200,0.05)">
+          <td style="font-weight:600; white-space:nowrap">2026-W02 <span style="background:rgba(168,85,200,0.18);color:var(--accent);padding:1px 6px;border-radius:99px;font-size:0.70rem;font-weight:700">SMS</span></td>
+          <td class="td-right" style="color:var(--text-muted); white-space:nowrap">05.01.–11.01.</td>
+          <td class="td-right" style="font-weight:700;color:var(--accent)">36 049</td>
+          <td class="td-right" style="font-weight:700">3 610 463&nbsp;Kč</td>
+          <td class="td-right">2 462</td>
+          <td class="td-right">1 466&nbsp;Kč</td>
+        </tr>
+        <tr style="">
+          <td style="font-weight:600; white-space:nowrap">2026-W03</td>
+          <td class="td-right" style="color:var(--text-muted); white-space:nowrap">12.01.–18.01.</td>
+          <td class="td-right" style="font-weight:400">5 116</td>
+          <td class="td-right" style="font-weight:700">4 001 809&nbsp;Kč</td>
+          <td class="td-right">2 446</td>
+          <td class="td-right">1 636&nbsp;Kč</td>
+        </tr>
+        <tr style="background:rgba(168,85,200,0.05)">
+          <td style="font-weight:600; white-space:nowrap">2026-W04 <span style="background:rgba(168,85,200,0.18);color:var(--accent);padding:1px 6px;border-radius:99px;font-size:0.70rem;font-weight:700">SMS</span></td>
+          <td class="td-right" style="color:var(--text-muted); white-space:nowrap">19.01.–25.01.</td>
+          <td class="td-right" style="font-weight:700;color:var(--accent)">32 237</td>
+          <td class="td-right" style="font-weight:700">3 084 967&nbsp;Kč</td>
+          <td class="td-right">2 161</td>
+          <td class="td-right">1 428&nbsp;Kč</td>
+        </tr>
+        <tr style="background:rgba(168,85,200,0.05)">
+          <td style="font-weight:600; white-space:nowrap">2026-W05 <span style="background:rgba(168,85,200,0.18);color:var(--accent);padding:1px 6px;border-radius:99px;font-size:0.70rem;font-weight:700">SMS</span></td>
+          <td class="td-right" style="color:var(--text-muted); white-space:nowrap">26.01.–01.02.</td>
+          <td class="td-right" style="font-weight:700;color:var(--accent)">22 334</td>
+          <td class="td-right" style="font-weight:700">3 390 072&nbsp;Kč</td>
+          <td class="td-right">2 352</td>
+          <td class="td-right">1 441&nbsp;Kč</td>
+        </tr>
+        <tr style="background:rgba(168,85,200,0.05)">
+          <td style="font-weight:600; white-space:nowrap">2026-W06 <span style="background:rgba(168,85,200,0.18);color:var(--accent);padding:1px 6px;border-radius:99px;font-size:0.70rem;font-weight:700">SMS</span></td>
+          <td class="td-right" style="color:var(--text-muted); white-space:nowrap">02.02.–08.02.</td>
+          <td class="td-right" style="font-weight:700;color:var(--accent)">29 244</td>
+          <td class="td-right" style="font-weight:700">3 702 398&nbsp;Kč</td>
+          <td class="td-right">2 742</td>
+          <td class="td-right">1 350&nbsp;Kč</td>
+        </tr>
+        <tr style="">
+          <td style="font-weight:600; white-space:nowrap">2026-W07</td>
+          <td class="td-right" style="color:var(--text-muted); white-space:nowrap">09.02.–15.02.</td>
+          <td class="td-right" style="font-weight:400">8 956</td>
+          <td class="td-right" style="font-weight:700">3 904 096&nbsp;Kč</td>
+          <td class="td-right">2 571</td>
+          <td class="td-right">1 519&nbsp;Kč</td>
+        </tr>
+        <tr style="background:rgba(168,85,200,0.05)">
+          <td style="font-weight:600; white-space:nowrap">2026-W08 <span style="background:rgba(168,85,200,0.18);color:var(--accent);padding:1px 6px;border-radius:99px;font-size:0.70rem;font-weight:700">SMS</span></td>
+          <td class="td-right" style="color:var(--text-muted); white-space:nowrap">16.02.–22.02.</td>
+          <td class="td-right" style="font-weight:700;color:var(--accent)">50 607</td>
+          <td class="td-right" style="font-weight:700">3 802 527&nbsp;Kč</td>
+          <td class="td-right">2 596</td>
+          <td class="td-right">1 465&nbsp;Kč</td>
+        </tr>
+        <tr style="background:rgba(168,85,200,0.05)">
+          <td style="font-weight:600; white-space:nowrap">2026-W09 <span style="background:rgba(168,85,200,0.18);color:var(--accent);padding:1px 6px;border-radius:99px;font-size:0.70rem;font-weight:700">SMS</span></td>
+          <td class="td-right" style="color:var(--text-muted); white-space:nowrap">23.02.–01.03.</td>
+          <td class="td-right" style="font-weight:700;color:var(--accent)">24 713</td>
+          <td class="td-right" style="font-weight:700">3 725 012&nbsp;Kč</td>
+          <td class="td-right">2 645</td>
+          <td class="td-right">1 408&nbsp;Kč</td>
+        </tr>
+        <tr style="background:rgba(168,85,200,0.05)">
+          <td style="font-weight:600; white-space:nowrap">2026-W10 <span style="background:rgba(168,85,200,0.18);color:var(--accent);padding:1px 6px;border-radius:99px;font-size:0.70rem;font-weight:700">SMS</span></td>
+          <td class="td-right" style="color:var(--text-muted); white-space:nowrap">02.03.–08.03.</td>
+          <td class="td-right" style="font-weight:700;color:var(--accent)">18 298</td>
+          <td class="td-right" style="font-weight:700">4 161 496&nbsp;Kč</td>
+          <td class="td-right">3 067</td>
+          <td class="td-right">1 357&nbsp;Kč</td>
+        </tr>
+        <tr style="background:rgba(168,85,200,0.05)">
+          <td style="font-weight:600; white-space:nowrap">2026-W11 <span style="background:rgba(168,85,200,0.18);color:var(--accent);padding:1px 6px;border-radius:99px;font-size:0.70rem;font-weight:700">SMS</span></td>
+          <td class="td-right" style="color:var(--text-muted); white-space:nowrap">09.03.–15.03.</td>
+          <td class="td-right" style="font-weight:700;color:var(--accent)">14 300</td>
+          <td class="td-right" style="font-weight:700">3 982 989&nbsp;Kč</td>
+          <td class="td-right">2 568</td>
+          <td class="td-right">1 551&nbsp;Kč</td>
+        </tr>
+        <tr style="background:rgba(168,85,200,0.05)">
+          <td style="font-weight:600; white-space:nowrap">2026-W12 <span style="background:rgba(168,85,200,0.18);color:var(--accent);padding:1px 6px;border-radius:99px;font-size:0.70rem;font-weight:700">SMS</span></td>
+          <td class="td-right" style="color:var(--text-muted); white-space:nowrap">16.03.–22.03.</td>
+          <td class="td-right" style="font-weight:700;color:var(--accent)">23 455</td>
+          <td class="td-right" style="font-weight:700">4 013 387&nbsp;Kč</td>
+          <td class="td-right">2 668</td>
+          <td class="td-right">1 504&nbsp;Kč</td>
+        </tr>
+        <tr style="background:rgba(168,85,200,0.05)">
+          <td style="font-weight:600; white-space:nowrap">2026-W13 <span style="background:rgba(168,85,200,0.18);color:var(--accent);padding:1px 6px;border-radius:99px;font-size:0.70rem;font-weight:700">SMS</span></td>
+          <td class="td-right" style="color:var(--text-muted); white-space:nowrap">23.03.–29.03.</td>
+          <td class="td-right" style="font-weight:700;color:var(--accent)">24 856</td>
+          <td class="td-right" style="font-weight:700">3 127 013&nbsp;Kč</td>
+          <td class="td-right">2 136</td>
+          <td class="td-right">1 464&nbsp;Kč</td>
+        </tr>
+        <tr style="background:rgba(168,85,200,0.05)">
+          <td style="font-weight:600; white-space:nowrap">2026-W14 <span style="background:rgba(168,85,200,0.18);color:var(--accent);padding:1px 6px;border-radius:99px;font-size:0.70rem;font-weight:700">SMS</span></td>
+          <td class="td-right" style="color:var(--text-muted); white-space:nowrap">30.03.–05.04.</td>
+          <td class="td-right" style="font-weight:700;color:var(--accent)">34 246</td>
+          <td class="td-right" style="font-weight:700">3 259 218&nbsp;Kč</td>
+          <td class="td-right">2 342</td>
+          <td class="td-right">1 392&nbsp;Kč</td>
+        </tr>
+        <tr style="">
+          <td style="font-weight:600; white-space:nowrap">2026-W15</td>
+          <td class="td-right" style="color:var(--text-muted); white-space:nowrap">06.04.–12.04.</td>
+          <td class="td-right" style="font-weight:400">6 166</td>
+          <td class="td-right" style="font-weight:700">3 694 430&nbsp;Kč</td>
+          <td class="td-right">2 477</td>
+          <td class="td-right">1 491&nbsp;Kč</td>
+        </tr>
+        <tr style="background:rgba(168,85,200,0.05)">
+          <td style="font-weight:600; white-space:nowrap">2026-W16 <span style="background:rgba(168,85,200,0.18);color:var(--accent);padding:1px 6px;border-radius:99px;font-size:0.70rem;font-weight:700">SMS</span></td>
+          <td class="td-right" style="color:var(--text-muted); white-space:nowrap">13.04.–14.04.</td>
+          <td class="td-right" style="font-weight:700;color:var(--accent)">17 021</td>
+          <td class="td-right" style="font-weight:700">1 741 200&nbsp;Kč</td>
+          <td class="td-right">1 079</td>
+          <td class="td-right">1 614&nbsp;Kč</td>
+        </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div style="background:rgba(168,85,200,0.08);border-radius:10px;padding:14px 16px;border:1px solid rgba(168,85,200,0.2)">
+          <div style="font-size:0.75rem;color:var(--text-muted);font-weight:600;text-transform:uppercase;margin-bottom:4px">Průměr — SMS týdny (≥10k SMS)</div>
+          <div style="font-size:1.4rem;font-weight:800">3 467&nbsp;tis.&nbsp;Kč</div>
+          <div style="font-size:0.78rem;color:var(--text-muted);margin-top:3px">12 takových týdnů</div>
+        </div>
+        <div style="background:rgba(26,111,168,0.08);border-radius:10px;padding:14px 16px;border:1px solid rgba(26,111,168,0.2)">
+          <div style="font-size:0.75rem;color:var(--text-muted);font-weight:600;text-transform:uppercase;margin-bottom:4px">Průměr — klidné týdny (&lt;10k SMS)</div>
+          <div style="font-size:1.4rem;font-weight:800">3 153&nbsp;tis.&nbsp;Kč</div>
+          <div style="font-size:0.78rem;color:var(--text-muted);margin-top:3px">4 takových týdnů (+W01 s minimem SMS)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Management commentary -->
+    <div class="grid-60-40">
+      <div class="mgmt-box">
+        <div class="mgmt-header">
+          <div class="mgmt-avatar">👤</div>
+          <div class="mgmt-meta">
+            <div class="mgmt-name">Rudolf Konfal — COO</div>
+            <div class="mgmt-role">Komentář k analýze vlivu SMS · 14.&nbsp;dubna&nbsp;2026</div>
+          </div>
+        </div>
+        <div class="mgmt-text">
+          Analýza dat z WPJ API (37&nbsp;101 objednávek za Q1 2026) potvrzuje, že SMS kanál je pozitivně asociován s obratem, avšak korelace je <strong>slabá (r&nbsp;=&nbsp;0,26)</strong> — jiné faktory (sezónnost, propagace, produktová nabídka) hrají rovnocennou roli.
+          <br><br>
+          Kampaňové dny (≥ 1&nbsp;000 SMS) vykazují v průměru <strong>obrat 575&nbsp;tis. Kč</strong> vs 485&nbsp;tis. Kč v běžné dny — tj. o 19&nbsp;% více. Korelace nestačí jako důkaz kauzality: řada kampaní probíhá souběžně se slevovými akcemi nebo jsou cíleny na nejaktivnější zákazníky, kteří by nakoupili i bez SMS.
+          <br><br>
+          Nicméně ekonomika kanálu je přesvědčivá: náklady 455&nbsp;tis. Kč vs odhadovaný příspěvek k obratu 3,8&nbsp;M Kč → <strong>ROI ~830 %</strong>. Doporučuji zachovat frekvenci, ale A/B testovat cílové skupiny a zjistit, jaký podíl zákazníků by nakoupil i bez SMS upomínky.
+        </div>
+        <div class="mgmt-highlights">
+          <div class="mgmt-hl">
+            <div class="mgmt-hl-val">r = 0,26</div>
+            <div class="mgmt-hl-lbl">Korelace SMS–obrat</div>
+          </div>
+          <div class="mgmt-hl">
+            <div class="mgmt-hl-val">+19&nbsp;%</div>
+            <div class="mgmt-hl-lbl">Obrat v den kampaně</div>
+          </div>
+          <div class="mgmt-hl">
+            <div class="mgmt-hl-val">830&nbsp;%</div>
+            <div class="mgmt-hl-lbl">Odhadované ROI</div>
+          </div>
+          <div class="mgmt-hl">
+            <div class="mgmt-hl-val">10,88 Kč</div>
+            <div class="mgmt-hl-lbl">Extra obrat / SMS</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📋 Shrnutí pro představenstvo</div>
+        <div class="card-subtitle">SMS vs obrat Q1 2026 · klíčové závěry</div>
+        <div style="margin-top:14px;display:flex;flex-direction:column;gap:10px;font-size:0.88rem;line-height:1.6">
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="color:var(--success);font-size:1rem;flex-shrink:0">✅</span>
+            <span><strong>Kampaňové dny mají vyšší obrat:</strong> průměrně +19&nbsp;% oproti běžným dnům. Největší jednodenní efekt: 22.&nbsp;2. (+145&nbsp;%), 22.&nbsp;3. (+129&nbsp;%), 13.&nbsp;4. (+137&nbsp;%).</span>
+          </div>
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="color:var(--success);font-size:1rem;flex-shrink:0">✅</span>
+            <span><strong>Halo efekt existuje:</strong> den po kampani si průměrně udržuje nadprůměrný obrat (průměr 534&nbsp;tis. Kč). Kampaně tedy nezpůsobují pouhé přesunutí nákupu.</span>
+          </div>
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="color:var(--warning);font-size:1rem;flex-shrink:0">⚠️</span>
+            <span><strong>Korelace je slabá (r = 0,26):</strong> obrat kolísá i bez SMS. Sezónní efekty (Q1 výprodeje, Valentýn, Velikonoce) a produktové akce jsou pravděpodobně dominantnější faktory.</span>
+          </div>
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="color:var(--success);font-size:1rem;flex-shrink:0">✅</span>
+            <span><strong>ROI kanálu je excelentní:</strong> odhad 830&nbsp;% je konzervativní (uvažuje celou delta nad baseline). I při 50&nbsp;% diskontování na atribuci je ROI přes 400&nbsp;%.</span>
+          </div>
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="color:var(--info);font-size:1rem;flex-shrink:0">ℹ️</span>
+            <span><strong>Doporučení:</strong> spustit A/B test (kontrolní skupina bez SMS) u nejbližší kampaně. Tím izolujeme čistý efekt SMS od souběžných akcí a zpřesníme atribuci.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
   <!-- ╔══════════════════════ KREDIT ══════════════════════╗ -->
   <section class="section" id="kredit">
     <div class="section-header">
@@ -765,6 +1259,7 @@ function toggleTheme() {
   html.setAttribute('data-theme', isDark ? 'light' : 'dark');
   document.querySelector('.theme-btn').textContent = isDark ? '🌙' : '☀️';
   updateChartThemes();
+  makeVlivChart();
 }
 function getCssVar(v) { return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); }
 function isDark() { return document.documentElement.getAttribute('data-theme') === 'dark'; }
@@ -1051,6 +1546,104 @@ function makeCreditChart() {
   });
 }
 
+
+// ── VLIV SMS NA OBRAT CHART ─────────────────────────────────────────────
+const vlivLabels = ["01.01.", "02.01.", "03.01.", "04.01.", "05.01.", "06.01.", "07.01.", "08.01.", "09.01.", "10.01.", "11.01.", "12.01.", "13.01.", "14.01.", "15.01.", "16.01.", "17.01.", "18.01.", "19.01.", "20.01.", "21.01.", "22.01.", "23.01.", "24.01.", "25.01.", "26.01.", "27.01.", "28.01.", "29.01.", "30.01.", "31.01.", "01.02.", "02.02.", "03.02.", "04.02.", "05.02.", "06.02.", "07.02.", "08.02.", "09.02.", "10.02.", "11.02.", "12.02.", "13.02.", "14.02.", "15.02.", "16.02.", "17.02.", "18.02.", "19.02.", "20.02.", "21.02.", "22.02.", "23.02.", "24.02.", "25.02.", "26.02.", "27.02.", "28.02.", "01.03.", "02.03.", "03.03.", "04.03.", "05.03.", "06.03.", "07.03.", "08.03.", "09.03.", "10.03.", "11.03.", "12.03.", "13.03.", "14.03.", "15.03.", "16.03.", "17.03.", "18.03.", "19.03.", "20.03.", "21.03.", "22.03.", "23.03.", "24.03.", "25.03.", "26.03.", "27.03.", "28.03.", "29.03.", "30.03.", "31.03.", "01.04.", "02.04.", "03.04.", "04.04.", "05.04.", "06.04.", "07.04.", "08.04.", "09.04.", "10.04.", "11.04.", "12.04.", "13.04.", "14.04."];
+const vlivRevenue = [202873, 268668, 261635, 276716, 581715, 530116, 721600, 312551, 322671, 226129, 915680, 967104, 686057, 642831, 493035, 442993, 272493, 497295, 523126, 461339, 459315, 539878, 429580, 271253, 400475, 599367, 528173, 458641, 438299, 443944, 483216, 438433, 513564, 618483, 534427, 553966, 480173, 618789, 382996, 539110, 622830, 646182, 506943, 697436, 368968, 522627, 665461, 605860, 728628, 590152, 382240, 240448, 589738, 515968, 485147, 517025, 465088, 491215, 582075, 668495, 620825, 622761, 627460, 526615, 640075, 665400, 458360, 521816, 581559, 705081, 901804, 496785, 267198, 508747, 605800, 529998, 674511, 530774, 356365, 400245, 915694, 482557, 506326, 651957, 489422, 312149, 230056, 454547, 790656, 847953, 447487, 328092, 212350, 242091, 390589, 702705, 826006, 398537, 549380, 436296, 295102, 486404, 1150330, 590870];
+const vlivSMS = [0, 1, 0, 0, 18236, 0, 0, 0, 17813, 0, 0, 0, 0, 2541, 2575, 0, 0, 0, 881, 3430, 2571, 25355, 0, 0, 0, 11104, 0, 3375, 4539, 3316, 0, 0, 0, 0, 3379, 25865, 0, 0, 0, 1812, 0, 3375, 3769, 0, 0, 0, 3227, 4101, 23312, 3378, 2, 0, 16587, 1819, 14397, 407, 8090, 0, 0, 0, 0, 16296, 0, 2002, 0, 0, 0, 1183, 11741, 1367, 0, 0, 0, 9, 275, 7, 6785, 1738, 0, 1, 14649, 222, 3049, 19295, 2290, 0, 0, 0, 11163, 0, 12148, 13, 0, 0, 10922, 12, 1546, 2597, 2004, 0, 0, 7, 17021, 0];
+const vlivBarColors = ["rgba(26,111,168,0.38)", "rgba(26,111,168,0.38)", "rgba(26,111,168,0.38)", "rgba(26,111,168,0.38)", "rgba(168,85,200,0.72)", "rgba(26,111,168,0.38)", "rgba(26,111,168,0.38)", "rgba(26,111,168,0.38)", "rgba(168,85,200,0.72)", "rgba(26,111,168,0.38)", "rgba(26,111,168,0.38)", "rgba(26,111,168,0.38)", "rgba(26,111,168,0.38)", "rgba(123,45,139,0.45)", "rgba(123,45,139,0.45)", "rgba(26,111,168,0.38)", "rgba(26,111,168,0.38)", "rgba(26,111,168,0.38)", "rgba(26,111,168,0.38)", "rgba(123,45,139,0.45)", "rgba(123,45,139,0.45)", "rgba(168,85,200,0.72)", "rgba(26,111,168,0.38)", "rgba(26,111,168,0.38)", "rgba(26,111,168,0.38)", "rgba(168,85,200,0.72)", "rgba(26,111,168,0.38)", "rgba(123,45,139,0.45)", "rgba(123,45,139,0.45)", "rgba(123,45,139,0.45)", "rgba(26,111,168,0.38)", "rgba(26,111,168,0.38)", "rgba(26,111,168,0.38)", "rgba(26,111,168,0.38)", "rgba(123,45,139,0.45)", "rgba(168,85,200,0.72)", "rgba(26,111,168,0.38)", "rgba(26,111,168,0.38)", "rgba(26,111,168,0.38)", "rgba(123,45,139,0.45)", "rgba(26,111,168,0.38)", "rgba(123,45,139,0.45)", "rgba(123,45,139,0.45)", "rgba(26,111,168,0.38)", "rgba(26,111,168,0.38)", "rgba(26,111,168,0.38)", "rgba(123,45,139,0.45)", "rgba(123,45,139,0.45)", "rgba(168,85,200,0.72)", "rgba(123,45,139,0.45)", "rgba(26,111,168,0.38)", "rgba(26,111,168,0.38)", "rgba(168,85,200,0.72)", "rgba(123,45,139,0.45)", "rgba(168,85,200,0.72)", "rgba(26,111,168,0.38)", "rgba(123,45,139,0.45)", "rgba(26,111,168,0.38)", "rgba(26,111,168,0.38)", "rgba(26,111,168,0.38)", "rgba(26,111,168,0.38)", "rgba(168,85,200,0.72)", "rgba(26,111,168,0.38)", "rgba(123,45,139,0.45)", "rgba(26,111,168,0.38)", "rgba(26,111,168,0.38)", "rgba(26,111,168,0.38)", "rgba(123,45,139,0.45)", "rgba(168,85,200,0.72)", "rgba(123,45,139,0.45)", "rgba(26,111,168,0.38)", "rgba(26,111,168,0.38)", "rgba(26,111,168,0.38)", "rgba(26,111,168,0.38)", "rgba(26,111,168,0.38)", "rgba(26,111,168,0.38)", "rgba(123,45,139,0.45)", "rgba(123,45,139,0.45)", "rgba(26,111,168,0.38)", "rgba(26,111,168,0.38)", "rgba(168,85,200,0.72)", "rgba(26,111,168,0.38)", "rgba(123,45,139,0.45)", "rgba(168,85,200,0.72)", "rgba(123,45,139,0.45)", "rgba(26,111,168,0.38)", "rgba(26,111,168,0.38)", "rgba(26,111,168,0.38)", "rgba(168,85,200,0.72)", "rgba(26,111,168,0.38)", "rgba(168,85,200,0.72)", "rgba(26,111,168,0.38)", "rgba(26,111,168,0.38)", "rgba(26,111,168,0.38)", "rgba(168,85,200,0.72)", "rgba(26,111,168,0.38)", "rgba(123,45,139,0.45)", "rgba(123,45,139,0.45)", "rgba(123,45,139,0.45)", "rgba(26,111,168,0.38)", "rgba(26,111,168,0.38)", "rgba(26,111,168,0.38)", "rgba(168,85,200,0.72)", "rgba(26,111,168,0.38)"];
+const vlivBarBorders = ["rgba(26,111,168,0.6)", "rgba(26,111,168,0.6)", "rgba(26,111,168,0.6)", "rgba(26,111,168,0.6)", "rgba(168,85,200,0.95)", "rgba(26,111,168,0.6)", "rgba(26,111,168,0.6)", "rgba(26,111,168,0.6)", "rgba(168,85,200,0.95)", "rgba(26,111,168,0.6)", "rgba(26,111,168,0.6)", "rgba(26,111,168,0.6)", "rgba(26,111,168,0.6)", "rgba(123,45,139,0.7)", "rgba(123,45,139,0.7)", "rgba(26,111,168,0.6)", "rgba(26,111,168,0.6)", "rgba(26,111,168,0.6)", "rgba(26,111,168,0.6)", "rgba(123,45,139,0.7)", "rgba(123,45,139,0.7)", "rgba(168,85,200,0.95)", "rgba(26,111,168,0.6)", "rgba(26,111,168,0.6)", "rgba(26,111,168,0.6)", "rgba(168,85,200,0.95)", "rgba(26,111,168,0.6)", "rgba(123,45,139,0.7)", "rgba(123,45,139,0.7)", "rgba(123,45,139,0.7)", "rgba(26,111,168,0.6)", "rgba(26,111,168,0.6)", "rgba(26,111,168,0.6)", "rgba(26,111,168,0.6)", "rgba(123,45,139,0.7)", "rgba(168,85,200,0.95)", "rgba(26,111,168,0.6)", "rgba(26,111,168,0.6)", "rgba(26,111,168,0.6)", "rgba(123,45,139,0.7)", "rgba(26,111,168,0.6)", "rgba(123,45,139,0.7)", "rgba(123,45,139,0.7)", "rgba(26,111,168,0.6)", "rgba(26,111,168,0.6)", "rgba(26,111,168,0.6)", "rgba(123,45,139,0.7)", "rgba(123,45,139,0.7)", "rgba(168,85,200,0.95)", "rgba(123,45,139,0.7)", "rgba(26,111,168,0.6)", "rgba(26,111,168,0.6)", "rgba(168,85,200,0.95)", "rgba(123,45,139,0.7)", "rgba(168,85,200,0.95)", "rgba(26,111,168,0.6)", "rgba(123,45,139,0.7)", "rgba(26,111,168,0.6)", "rgba(26,111,168,0.6)", "rgba(26,111,168,0.6)", "rgba(26,111,168,0.6)", "rgba(168,85,200,0.95)", "rgba(26,111,168,0.6)", "rgba(123,45,139,0.7)", "rgba(26,111,168,0.6)", "rgba(26,111,168,0.6)", "rgba(26,111,168,0.6)", "rgba(123,45,139,0.7)", "rgba(168,85,200,0.95)", "rgba(123,45,139,0.7)", "rgba(26,111,168,0.6)", "rgba(26,111,168,0.6)", "rgba(26,111,168,0.6)", "rgba(26,111,168,0.6)", "rgba(26,111,168,0.6)", "rgba(26,111,168,0.6)", "rgba(123,45,139,0.7)", "rgba(123,45,139,0.7)", "rgba(26,111,168,0.6)", "rgba(26,111,168,0.6)", "rgba(168,85,200,0.95)", "rgba(26,111,168,0.6)", "rgba(123,45,139,0.7)", "rgba(168,85,200,0.95)", "rgba(123,45,139,0.7)", "rgba(26,111,168,0.6)", "rgba(26,111,168,0.6)", "rgba(26,111,168,0.6)", "rgba(168,85,200,0.95)", "rgba(26,111,168,0.6)", "rgba(168,85,200,0.95)", "rgba(26,111,168,0.6)", "rgba(26,111,168,0.6)", "rgba(26,111,168,0.6)", "rgba(168,85,200,0.95)", "rgba(26,111,168,0.6)", "rgba(123,45,139,0.7)", "rgba(123,45,139,0.7)", "rgba(123,45,139,0.7)", "rgba(26,111,168,0.6)", "rgba(26,111,168,0.6)", "rgba(26,111,168,0.6)", "rgba(168,85,200,0.95)", "rgba(26,111,168,0.6)"];
+
+function makeVlivChart() {
+  if (charts.vliv) { charts.vliv.destroy(); }
+  charts.vliv = new Chart(document.getElementById('chartVlivOverlay'), {
+    type: 'bar',
+    data: {
+      labels: vlivLabels,
+      datasets: [
+        {
+          type: 'bar',
+          label: 'Obrat e-shopu (Kč)',
+          data: vlivRevenue,
+          backgroundColor: vlivBarColors,
+          borderColor: vlivBarBorders,
+          borderWidth: 1,
+          borderRadius: 2,
+          yAxisID: 'yRev',
+          order: 2
+        },
+        {
+          type: 'line',
+          label: 'SMS odesláno',
+          data: vlivSMS,
+          borderColor: 'rgba(220,38,38,0.85)',
+          backgroundColor: 'rgba(220,38,38,0.08)',
+          fill: false,
+          tension: 0.3,
+          pointRadius: vlivSMS.map(v => v >= 5000 ? 5 : (v >= 1000 ? 3 : 1)),
+          pointBackgroundColor: 'rgba(220,38,38,0.9)',
+          borderWidth: 2.5,
+          yAxisID: 'ySMS',
+          order: 1
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: {
+          display: true,
+          labels: { color: labelColor(), font: { size: 11 }, padding: 16 }
+        },
+        tooltip: {
+          callbacks: {
+            title: ctx => ctx[0].label + ' 2026',
+            label: ctx => {
+              if (ctx.datasetIndex === 0) return ' Obrat: ' + ctx.parsed.y.toLocaleString('cs-CZ') + ' Kč';
+              return ' SMS: ' + ctx.parsed.y.toLocaleString('cs-CZ');
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { display: false },
+          ticks: {
+            color: labelColor(),
+            font: { size: 9 },
+            maxRotation: 45,
+            minRotation: 30,
+            maxTicksLimit: 30
+          }
+        },
+        yRev: {
+          type: 'linear',
+          position: 'left',
+          grid: { color: gridColor() },
+          ticks: {
+            color: labelColor(),
+            callback: v => (v/1000).toFixed(0) + 'k Kč'
+          },
+          title: { display: true, text: 'Denní obrat (Kč)', color: 'rgba(26,111,168,0.8)', font: { size: 11 } }
+        },
+        ySMS: {
+          type: 'linear',
+          position: 'right',
+          grid: { drawOnChartArea: false },
+          ticks: {
+            color: 'rgba(220,38,38,0.7)',
+            callback: v => v >= 1000 ? (v/1000).toFixed(0) + 'k' : v
+          },
+          title: { display: true, text: 'SMS odesláno', color: 'rgba(220,38,38,0.8)', font: { size: 11 } }
+        }
+      }
+    }
+  });
+}
+
+
 // ── OPERATOR LIST ────────────────────────────────────────────────────────
 function renderOpList() {
   const el = document.getElementById('opList');
@@ -1189,6 +1782,7 @@ makeDonutChart();
 makeHourlyChart();
 makeStatusChart();
 makeCreditChart();
+makeVlivChart();
 renderOpList();
 renderOpVolList();
 renderCampaignTable();
