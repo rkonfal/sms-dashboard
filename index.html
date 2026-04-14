@@ -7,6 +7,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
   <style>
     :root {
+  --sidebar-w: 260px; --brand: #7B2D8B; --brand-dark: #5A1A6E; --nav-active: #e6a817;
       --primary:       #7B2D8B;
       --primary-dark:  #5A1A6E;
       --accent:        #A855C8;
@@ -103,7 +104,7 @@
     .nav-date { font-size: 0.77rem; color: rgba(255,255,255,0.7); }
 
     /* ── LAYOUT ── */
-    .container { max-width: 1400px; margin: 0 auto; padding: 28px 24px; }
+    .container { max-width: calc(100vw - 260px); margin: 0 0 0 var(--sidebar-w); padding: 28px 24px; }
     .section { margin-bottom: 36px; }
     .section-header {
       display: flex; align-items: center; gap: 10px;
@@ -287,40 +288,142 @@
     /* ── SCROLLBAR ── */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-  </style>
+  
+/* ── Sidebar ── */
+.sidebar {
+  width: var(--sidebar-w);
+  background: linear-gradient(180deg, var(--brand-dark) 0%, var(--brand) 100%);
+  color: #fff;
+  position: fixed;
+  top: 0; left: 0;
+  height: 100vh;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  transition: transform .3s ease;
+  overflow-y: auto;
+}
+.sidebar-logo {
+  padding: 24px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  margin-bottom: 16px;
+}
+.sidebar-logo h2 { font-size: 18px; font-weight: 700; color: #fff; margin: 0; }
+.sidebar-logo span { font-size: 11px; color: rgba(255,255,255,0.5); }
+.sidebar-reports { padding: 14px 0 0; }
+.sidebar-reports a {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 24px;
+  color: rgba(255,255,255,.7);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  border-left: 3px solid transparent;
+  transition: all .2s;
+}
+.sidebar-reports a:hover {
+  background: rgba(255,255,255,.08);
+  color: #fff;
+  border-left-color: var(--nav-active);
+}
+.sidebar-reports a.report-active {
+  background: rgba(255,255,255,.12);
+  color: #fff;
+  border-left-color: var(--nav-active);
+}
+.sidebar-reports a .report-emoji { font-size: 15px; flex-shrink: 0; width: 18px; text-align: center; }
+.sidebar-divider { height: 1px; background: rgba(255,255,255,.12); margin: 10px 24px; }
+.sidebar-nav { padding: 4px 0; flex: 1; }
+.sidebar-nav a {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 24px;
+  color: rgba(255,255,255,.75);
+  text-decoration: none;
+  font-size: 13.5px;
+  font-weight: 500;
+  border-left: 3px solid transparent;
+  transition: all .2s;
+}
+.sidebar-nav a:hover, .sidebar-nav a.active {
+  background: rgba(255,255,255,.08);
+  color: #fff;
+  border-left-color: var(--nav-active);
+}
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--brand);
+  border: none;
+  color: #fff;
+  width: 42px; height: 42px;
+  border-radius: 10px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 12px rgba(0,0,0,.25);
+}
+.hamburger svg { width: 22px; height: 22px; }
+.overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.5);
+  z-index: 90;
+}
+@media (max-width: 768px) {
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); }
+  .hamburger { display: flex; }
+  .overlay.show { display: block; }
+}
+@media print {
+  .sidebar, .hamburger, .overlay { display: none !important; }
+}
+
+</style>
 </head>
 <body>
-
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">
+  <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+</button>
+<div class="overlay" onclick="toggleSidebar()"></div>
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <h2>DIAMOND PLUS</h2>
+    <span>Království TianDe</span>
+  </div>
+  <nav class="sidebar-reports">
+    <a href="https://rkonfal.github.io/diamond-plus-portal/"><span class="report-emoji">🏠</span> Portál</a>
+    <a href="https://rkonfal.github.io/diamond-plus-report/"><span class="report-emoji">💰</span> Hospodaření</a>
+    <a href="https://rkonfal.github.io/inventory-dashboard/"><span class="report-emoji">📋</span> Sklad</a>
+    <a href="https://rkonfal.github.io/4px-kpi-dashboard/"><span class="report-emoji">📊</span> Expedice</a>
+    <a href="https://rkonfal.github.io/4px-carriers/"><span class="report-emoji">🚚</span> Přepravci</a>
+    <a href="https://rkonfal.github.io/eshop-dashboard/"><span class="report-emoji">🛒</span> E-shop</a>
+    <a href="https://rkonfal.github.io/4px-obalovy-material/"><span class="report-emoji">📦</span> Obaly</a>
+    <a href="https://rkonfal.github.io/balicky-dashboard/"><span class="report-emoji">🎁</span> Balíčky</a>
+    <a href="https://rkonfal.github.io/skupiny-dashboard/"><span class="report-emoji">👥</span> Skupiny</a>
+    <a href="https://rkonfal.github.io/expirace-dashboard/"><span class="report-emoji">⏰</span> Expirace</a>
+    <a href="https://rkonfal.github.io/novi-zakaznici/"><span class="report-emoji">👤</span> Noví zákazníci</a>
+    <a href="https://rkonfal.github.io/reklamy-dashboard/"><span class="report-emoji">📢</span> Reklamy</a>
+    <a href="https://rkonfal.github.io/sms-dashboard/" class="report-active"><span class="report-emoji">📱</span> SMS</a>
+    <a href="https://rkonfal.github.io/klaviyo-dashboard/"><span class="report-emoji">📧</span> Klaviyo</a>
+    <a href="https://rkonfal.github.io/marketing-dashboard/"><span class="report-emoji">📈</span> Marketing</a>
+  </nav>
+  <div class="sidebar-divider"></div>
+  <nav class="sidebar-nav">
+    <a href="#kpi">📊 KPI přehled</a>
+    <a href="#denni">📅 Denní přehled</a>
+    <a href="#historie">📜 Historie</a>
+    <a href="#operatori">📡 Operátoři</a>
+    <a href="#kampane">📢 Kampaně</a>
+    <a href="#vliv">📈 SMS vs Obrat</a>
+    <a href="#kredit">💳 Kredit</a>
+    <a href="#management">⚙️ Management</a>
+  </nav>
+</aside>
 <!-- ╔══════════════════════ NAV ══════════════════════╗ -->
-<nav class="nav">
-  <a class="nav-brand" href="#">
-    <div class="nav-brand-icon">💎</div>
-    <div>
-      <div class="nav-brand-text">Diamond Plus</div>
-      <div class="nav-brand-sub">SMS Intelligence Dashboard</div>
-    </div>
-  </a>
 
-  <div class="nav-links">
-    <a class="nav-link" href="#kpi">KPI</a>
-    <a class="nav-link" href="#denni">Denní přehled</a>
-    <a class="nav-link" href="#historie">Historie</a>
-    <a class="nav-link" href="#operatori">Operátoři</a>
-    <a class="nav-link" href="#kampane">Kampaně</a>
-    <a class="nav-link" href="#vliv">SMS vs Obrat</a>
-    <a class="nav-link" href="#kredit">Kredit</a>
-    <a class="nav-link" href="#management">Management</a>
-  </div>
-
-  <div class="nav-right">
-    <div class="nav-status">
-      <div class="status-dot"></div>
-      <span>tianDeMECIN · Live</span>
-    </div>
-    <div class="nav-date" id="navDate"></div>
-    <button class="theme-btn" onclick="toggleTheme()" title="Přepnout téma">🌙</button>
-  </div>
-</nav>
 
 <div class="container">
 
